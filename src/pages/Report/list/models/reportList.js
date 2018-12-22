@@ -1,4 +1,5 @@
-import { queryReport } from '@/services/report';
+import { message } from 'antd';
+import { queryReport, updateReport, addReport, fetchReport, removeReport, checkReport } from '@/services/report';
 
 export default {
   namespace: 'reportList',
@@ -16,34 +17,94 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const data = yield call(queryReport, payload);
+      const result = yield call(queryReport, payload);
       yield put({
-        type: 'update',
-        payload: { data },
+        type: 'set',
+        payload: {
+          data: {
+            list: result.data,
+            pagination: result.pagination
+          }
+        },
       });
+    },
+    *fetchItem({ payload }, { call, put }) {
+      const result = yield call(fetchReport, payload);
+      yield put({
+        type: 'set',
+        payload: { current: result },
+      });
+    },
+    *update({ payload }, { call, put }) {
+      yield call(updateReport, payload);
+      yield put({
+        type: 'fetch'
+      })
+      message.success('修改成功', 2);
+    },
+    *add({ payload }, { call, put }) {
+      yield call(addReport, payload);
+      yield put({
+        type: 'fetch'
+      })
+      message.success('保存成功', 2);
+    },
+    *remove({ payload }, { call, put }) {
+      yield call(removeReport, payload);
+      yield put({
+        type: 'fetch'
+      })
+      message.success('删除成功', 2);
+    },
+    *check({ payload }, { call, select }) {
+      const id = yield select(state => {
+        return state.reportList.id;
+      })
+      const result = yield call(checkReport, id);
+      yield put({
+        type: 'fetch'
+      })
+      return result;
+    },
+    *comment({ payload }, { call, put }) {
+      yield call(updateReport, payload);
+      yield put({
+        type: 'fetch'
+      })
+      message.success('评论成功', 2);
     },
   },
 
   reducers: {
-    toggleDetailModalVisible(state, { payload: visible }) {
+    toggleDetailModalVisible(state, { payload }) {
       return {
         ...state,
-        detailModalVisible: visible,
+        detailModalVisible: payload.visible,
+        id: payload.id,
       }
     },
-    toggleCheckModalVisible(state, { payload: visible }) {
+    toggleCheckModalVisible(state, { payload }) {
       return {
         ...state,
-        checkModalVisible: visible,
+        checkModalVisible: payload.visible,
+        id: payload.id,
       }
     },
-    toggleCommentModalVisible(state, { payload: visible }) {
+    toggleCommentModalVisible(state, { payload }) {
       return {
         ...state,
-        commentModalVisible: visible,
+        commentModalVisible: payload.visible,
+        id: payload.id,
       }
     },
-    update(state, { payload }) {
+    clearCurrent(state) {
+      return {
+        ...state,
+        id: undefined,
+        current: {},
+      }
+    },
+    set(state, { payload }) {
       return {
         ...state,
         ...payload,

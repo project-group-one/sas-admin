@@ -10,7 +10,7 @@ import ModalContent from './ModalContent';
     beforeOpen: (props) => {
         if (props.isEdit) {
             props.dispatch({
-                type: 'reportList/fetch',
+                type: 'reportList/fetchItem',
                 payload: props.id
             })
         }
@@ -26,38 +26,27 @@ class ExampleModal extends React.PureComponent {
     handleCancel = () => {
         this.props.dispatch({
             type: 'reportList/toggleCommentModalVisible',
-            payload: false,
+            payload: { visible: false },
         })
     }
 
     handleSubmit = () => {
         const { form, current, isEdit } = this.props;
         form.validateFieldsAndScroll((errors, value) => {
-            console.log(errors, value, 'submit data');
             if (errors) return;
-            const payload = {
-                ...value,
-                createdAt: value.createdAt ? value.createdAt.format(dateFormat) : undefined,
-            }
-            if (isEdit) {
-                this.props.dispatch({
-                    type: 'reportList/update',
-                    payload: {
-                        ...current,
-                        ...payload,
-                    },
-                })
-            } else {
-                this.props.dispatch({
-                    type: 'reportList/add',
-                    payload,
-                })
-            }
+            this.props.dispatch({
+                type: 'reportList/update',
+                payload: {
+                    ...current,
+                    ...value,
+                },
+            })
+            this.handleCancel();
         })
     }
 
     render() {
-        const { visible, form, loading, addLoading, updateLoading, isEdit } = this.props;
+        const { visible, form, loading, addLoading, updateLoading, isEdit, current } = this.props;
         return (
             <Modal
                 visible={visible}
@@ -69,7 +58,7 @@ class ExampleModal extends React.PureComponent {
                 onOk={this.handleSubmit}
             >
                 <Spin spinning={loading}>
-                    <DataContext.Provider value={{ form, isEdit }}>
+                    <DataContext.Provider value={{ form, isEdit, current }}>
                         <ModalContent />
                     </DataContext.Provider>
                 </Spin>
@@ -84,7 +73,7 @@ export default connect(
         current: state.reportList.current,
         id: state.reportList.id,
         isEdit: typeof state.reportList.id !== 'undefined',
-        loading: state.loading.effects['reportList/fetch'] || false,
+        loading: state.loading.effects['reportList/fetchItem'] || false,
         addLoading: state.loading.effects['reportList/add'] || false,
         updateLoading: state.loading.effects['reportList/update'] || false,
     })

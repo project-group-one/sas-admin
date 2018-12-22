@@ -4,6 +4,8 @@ import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
 
+const ROOT_PATH = 'http://192.168.11.187:9666';
+
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -56,6 +58,13 @@ const cachedSave = (response, hashcode) => {
   return response;
 };
 
+function getFullPath(url) {
+  if (url.indexOf('reports') > -1 || url.indexOf('files') > -1) {
+    return `${ROOT_PATH}${url}`;
+  }
+  return url;
+}
+
 /**
  * Requests a URL, returning a promise.
  *
@@ -64,6 +73,7 @@ const cachedSave = (response, hashcode) => {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, option) {
+  url = getFullPath(url);
   const options = {
     expirys: isAntdPro(),
     ...option,
@@ -79,7 +89,7 @@ export default function request(url, option) {
     .digest('hex');
 
   const defaultOptions = {
-    credentials: 'include',
+    // credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
   if (

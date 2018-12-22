@@ -33,7 +33,7 @@ const getValue = obj =>
 
 @connect(({ reportList, loading }) => ({
     data: reportList.data,
-    loading: loading.models.reportList,
+    loading: loading.effects['reportList/fetch'],
 }))
 @Form.create()
 class TableList extends PureComponent {
@@ -46,19 +46,11 @@ class TableList extends PureComponent {
         {
             title: '检测报告名称',
             dataIndex: 'name',
+            render: (text, { path }) => <a href={path}>{text}</a>
         },
         {
-            title: '年龄',
-            dataIndex: 'age',
-        },
-        {
-            title: '报告类型',
-            dataIndex: 'type',
-            sorter: true,
-        },
-        {
-            title: '上次调度时间',
-            dataIndex: 'updatedAt',
+            title: '上传时间',
+            dataIndex: 'createdDate',
             sorter: true,
             render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
         },
@@ -66,11 +58,13 @@ class TableList extends PureComponent {
             title: '操作',
             render: (text, record) => (
                 <Fragment>
-                    <a onClick={() => this.handleCheckModalVisible(true)}>检测</a>
+                    <a onClick={() => this.handleCheckModalVisible(true, record.id)}>
+                    {record.examiningResult ? <font color={'green'}>检测结果</font> : '检测'}
+                    </a>
                     <Divider type="vertical" />
-                    <a onClick={() => this.handleCommentModalVisible(true)}>评价</a>
+                    <a onClick={() => this.handleCommentModalVisible(true, record.id)}>{record.evaluation ? '查看评价': '评价'}</a>
                     <Divider type="vertical" />
-                    <a onClick={() => this.handleDetailModalVisible(true)}>编辑</a>
+                    <a onClick={() => this.handleDetailModalVisible(true, record.id)}>编辑</a>
                     <Divider type="vertical" />
                     <a onClick={this.handleRemove(record.id)}>删除</a>
                 </Fragment>
@@ -187,24 +181,24 @@ class TableList extends PureComponent {
         });
     }
 
-    handleDetailModalVisible = (visible = false) => {
+    handleDetailModalVisible = (visible, id) => {
         this.props.dispatch({
             type: 'reportList/toggleDetailModalVisible',
-            payload: visible,
+            payload: { visible, id },
         })
     }
 
-    handleCheckModalVisible = (visible = false) => {
+    handleCheckModalVisible = (visible, id) => {
         this.props.dispatch({
             type: 'reportList/toggleCheckModalVisible',
-            payload: visible,
+            payload: { visible, id },
         })
     }
 
-    handleCommentModalVisible = (visible = false) => {
+    handleCommentModalVisible = (visible, id) => {
         this.props.dispatch({
             type: 'reportList/toggleCommentModalVisible',
-            payload: visible,
+            payload: { visible, id },
         })
     }
 

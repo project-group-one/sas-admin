@@ -1,5 +1,7 @@
 import React from 'react';
-import { Tabs, Row, Col, Card, Button, Icon } from 'antd';
+import { Tabs, Row, Col, Card, Button, Icon, Skeleton } from 'antd';
+import { connect } from 'dva';
+import DataContext from './common/DataContext';
 import Result from '@/components/Result';
 
 const { TabPane } = Tabs;
@@ -8,21 +10,27 @@ const types = {
     ERROR: 'error',
     CHECKING: 'checking',
 }
-class ModalContent extends React.PureComponent {
 
+@connect()
+class ModalContent extends React.PureComponent {
     state = {
         type: '',
+        message: '',
     }
 
-    handleTabChange = () => {
-
-    }
-
-    handleCheck = () => {
+    handleCheck = async () => {
         this.setState({ type: types.CHECKING });
         setTimeout(() => {
-            this.setState({ type: types.SUCCESS });
+            this.setState({});
         }, 2000)
+        const result = await this.props.dispatch({
+            type: 'reportList/check',
+        });
+        const type = result.success ? types.SUCCESS : types.ERROR;
+        this.setState({
+            type,
+            message: result.msg,
+        })
     }
 
     renderTitle = () => {
@@ -39,36 +47,51 @@ class ModalContent extends React.PureComponent {
         }
     }
 
-    render() {
-        const { type } = this.state;
-        const extra = (
-            <div>
-                <div style={{ fontSize: 16, color: 'rgba(0, 0, 0, 0.85)', fontWeight: 500, marginBottom: 16 }}>
-                    您提交的报告检测结果：
-              </div>
-                <div style={{ marginBottom: 16 }}>
-                    <Icon style={{ color: '#f5222d', marginRight: 8 }} type="close-circle" />您的账户已被冻结
-                <a style={{ marginLeft: 16 }}>立即解冻 <Icon type="right" /></a>
-                </div>
-                <div>
-                    <Icon style={{ color: '#f5222d', marginRight: 8 }} type="close-circle" />您的账户还不具备申请资格
-                <a style={{ marginLeft: 16 }}>立即升级 <Icon type="right" /></a>
-                </div>
-            </div>
-        );
+    handleCancel = () => {
+        this.props.dispatch({
+            type: 'reportList/toggleCheckModalVisible',
+            payload: { visible: false },
+        })
+    }
 
-        const actions = <Button type="primary">返回修改</Button>;
+    render() {
+        const { type, message } = this.state;
+        const { loading } = this.props;
+        const actions = <Button onClick={this.handleCancel} type="primary">返回</Button>;
         return (
-            <div style={{ padding: 20 }}>
-                <Result
-                    type={type}
-                    title={this.renderTitle()}
-                    description="提交结果页用于反馈一系列操作任务的处理结果，如果仅是简单操作，使用 Message 全局提示反馈即可。本文字区域可以展示简单的补充说明，如果有类似展示“单据”的需求，下面这个灰色区域可以呈现比较复杂的内容。"
-                    extra={extra}
-                    actions={actions}
-                    style={{ width: '100%' }}
-                />
-            </div>
+            <DataContext.Consumer>
+                {
+                    ({ isView, current }) => {
+                        const extra = (
+                            <div>
+                                <div style={{ fontSize: 16, color: 'rgba(0, 0, 0, 0.85)', fontWeight: 500, marginBottom: 16 }}>
+                                    您提交的报告检测结果：
+                                </div>
+                                <div>
+                                    {isView ? current.examiningResult : message}
+                                </div>
+                            </div>
+                        );
+                        return (
+                            <div style={{ padding: 20 }}>
+                                {
+                                    loading ? (
+                                        <Skeleton active />
+                                    ) : (
+                                            <Result
+                                                type={isView === false ? type : undefined}
+                                                title={isView === false ? this.renderTitle() : undefined}
+                                                extra={extra}
+                                                actions={actions}
+                                                style={{ width: '100%' }}
+                                            />
+                                        )
+                                }
+                            </div>
+                        )
+                    }
+                }
+            </DataContext.Consumer>
         )
     }
 }

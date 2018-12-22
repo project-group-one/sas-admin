@@ -22,13 +22,15 @@ export default {
             { name },
         );
         res.json({
-            list,
+            data: list,
             pagination,
         })
     },
 
     'GET /api/reports/:id': (req, res) => {
-        res.json(report.list.find(item => item.id.toString() === req.params.id.toString()));
+        res.json({
+            data: report.list.find(item => item.id.toString() === req.params.id.toString())
+        });
     },
 
     'PUT /api/reports/:id': (req, res) => {

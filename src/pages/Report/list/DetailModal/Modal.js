@@ -10,7 +10,7 @@ import ModalContent from './ModalContent';
     beforeOpen: (props) => {
         if (props.isEdit) {
             props.dispatch({
-                type: 'reportList/fetch',
+                type: 'reportList/fetchItem',
                 payload: props.id
             })
         }
@@ -26,50 +26,51 @@ class ExampleModal extends React.PureComponent {
     handleCancel = () => {
         this.props.dispatch({
             type: 'reportList/toggleDetailModalVisible',
-            payload: false,
+            payload: { visible: false },
         })
     }
 
     handleSubmit = () => {
         const { form, current, isEdit } = this.props;
         form.validateFieldsAndScroll((errors, value) => {
-            console.log(errors, value, 'submit data');
             if (errors) return;
-            const payload = {
-                ...value,
-                createdAt: value.createdAt ? value.createdAt.format(dateFormat) : undefined,
-            }
             if (isEdit) {
                 this.props.dispatch({
                     type: 'reportList/update',
                     payload: {
                         ...current,
-                        ...payload,
+                        ...value,
                     },
                 })
             } else {
                 this.props.dispatch({
                     type: 'reportList/add',
-                    payload,
+                    payload: {
+                        ...value,
+                        path: Array.isArray(value.path) && value.path.length > 0
+                            ? value.path[0].response.path
+                            : undefined
+                    },
                 })
             }
+            this.handleCancel();
         })
     }
 
     render() {
-        const { visible, form, loading, addLoading, updateLoading, isEdit } = this.props;
+        const { visible, form, loading, addLoading, updateLoading, isEdit, current } = this.props;
         return (
             <Modal
                 visible={visible}
                 onCancel={this.handleCancel}
-                title='新建'
+                title={isEdit ? '编辑检测报告' : '上传检测报告'}
                 confirmLoading={isEdit ? updateLoading : addLoading}
                 width={800}
                 bodyStyle={{ padding: 0, minHeight: 200 }}
                 onOk={this.handleSubmit}
             >
                 <Spin spinning={loading}>
-                    <DataContext.Provider value={{ form, isEdit }}>
+                    <DataContext.Provider value={{ form, isEdit, current }}>
                         <ModalContent />
                     </DataContext.Provider>
                 </Spin>
@@ -84,7 +85,7 @@ export default connect(
         current: state.reportList.current,
         id: state.reportList.id,
         isEdit: typeof state.reportList.id !== 'undefined',
-        loading: state.loading.effects['reportList/fetch'] || false,
+        loading: state.loading.effects['reportList/fetchItem'] || false,
         addLoading: state.loading.effects['reportList/add'] || false,
         updateLoading: state.loading.effects['reportList/update'] || false,
     })
