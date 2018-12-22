@@ -4,7 +4,8 @@ import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
 
-const ROOT_PATH = 'http://192.168.11.187:9666';
+// const ROOT_PATH = 'http://192.168.11.187:9666';
+const ROOT_PATH = 'http://39.98.172.236:80';
 export { ROOT_PATH };
 
 const codeMessage = {
