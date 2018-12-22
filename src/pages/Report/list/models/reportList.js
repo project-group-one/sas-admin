@@ -56,7 +56,7 @@ export default {
       })
       message.success('删除成功', 2);
     },
-    *check({ payload }, { call, select }) {
+    *check({ payload }, { call, put, select }) {
       const id = yield select(state => {
         return state.reportList.id;
       })

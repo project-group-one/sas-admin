@@ -22,6 +22,7 @@ import CheckModal from './CheckModal';
 import CommentModal from './CommentModal';
 
 import styles from './List.less';
+import { ROOT_PATH } from '@/utils/request';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -46,7 +47,10 @@ class TableList extends PureComponent {
         {
             title: '检测报告名称',
             dataIndex: 'name',
-            render: (text, { path }) => <a href={path}>{text}</a>
+            render: (text, { path }) => {
+                const url = `${ROOT_PATH}/api/files?path=${path}`;
+                return <a target='_blank' href={url}>{text}</a>
+            }
         },
         {
             title: '上传时间',
@@ -59,10 +63,10 @@ class TableList extends PureComponent {
             render: (text, record) => (
                 <Fragment>
                     <a onClick={() => this.handleCheckModalVisible(true, record.id)}>
-                    {record.examiningResult ? <font color={'green'}>检测结果</font> : '检测'}
+                        {record.examiningResult ? <font color={'green'}>检测结果</font> : '检测'}
                     </a>
                     <Divider type="vertical" />
-                    <a onClick={() => this.handleCommentModalVisible(true, record.id)}>{record.evaluation ? '查看评价': '评价'}</a>
+                    <a onClick={() => this.handleCommentModalVisible(true, record.id)}>{record.evaluation ? '查看评价' : '评价'}</a>
                     <Divider type="vertical" />
                     <a onClick={() => this.handleDetailModalVisible(true, record.id)}>编辑</a>
                     <Divider type="vertical" />
@@ -82,11 +86,17 @@ class TableList extends PureComponent {
     handleRemove = (id) => () => {
         Modal.confirm({
             title: '是否确认删除?',
-            onOk: () => {
-                this.props.dispatch({
+            onOk: async () => {
+                await this.props.dispatch({
                     type: 'reportList/remove',
                     payload: id,
                 })
+                this.setState(({ selectedRows }) => {
+                    const ids = Array.isArray(id) ? id : [id];
+                    return {
+                        selectedRows: selectedRows.filter(item => !ids.some(id => id === item.id))
+                    }
+                });
             },
         })
     }
@@ -251,8 +261,7 @@ class TableList extends PureComponent {
         const { selectedRows } = this.state;
         const menu = (
             <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
-                <Menu.Item key="remove">删除</Menu.Item>
-                <Menu.Item key="approval">批量审批</Menu.Item>
+                <Menu.Item onClick={this.handleRemove(selectedRows.map(item => item.id))} key="remove">删除</Menu.Item>
             </Menu>
         );
         return (
@@ -266,7 +275,6 @@ class TableList extends PureComponent {
                             </Button>
                             {selectedRows.length > 0 && (
                                 <span>
-                                    <Button>批量操作</Button>
                                     <Dropdown overlay={menu}>
                                         <Button>
                                             更多操作 <Icon type="down" />

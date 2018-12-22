@@ -1,6 +1,7 @@
 import React from 'react';
 import { Upload, Button, Icon, Form, Input } from 'antd';
 import DataContext from './common/DataContext';
+import { ROOT_PATH } from '@/utils/request';
 
 const FormItem = Form.Item;
 
@@ -55,7 +56,7 @@ class ModalContent extends React.PureComponent {
                             })(
                                 <Upload
                                     name="file"
-                                    action="/api/files"
+                                    action={`${ROOT_PATH}/api/files`}
                                     listType="picture"
                                     onRemove={this.handleFileRemove}
                                 >

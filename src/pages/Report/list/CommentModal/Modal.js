@@ -32,9 +32,9 @@ class ExampleModal extends React.PureComponent {
 
     handleSubmit = () => {
         const { form, current, isEdit } = this.props;
-        form.validateFieldsAndScroll((errors, value) => {
+        form.validateFieldsAndScroll(async (errors, value) => {
             if (errors) return;
-            this.props.dispatch({
+            await this.props.dispatch({
                 type: 'reportList/update',
                 payload: {
                     ...current,

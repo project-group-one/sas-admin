@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Modal, Form, Spin } from 'antd';
+import { Modal, Form, Spin, message } from 'antd';
 import { connect } from 'dva';
 import rebuild from '@/utils/rebuild';
 import DataContext from './common/DataContext';
@@ -32,10 +32,10 @@ class ExampleModal extends React.PureComponent {
 
     handleSubmit = () => {
         const { form, current, isEdit } = this.props;
-        form.validateFieldsAndScroll((errors, value) => {
+        form.validateFieldsAndScroll(async (errors, value) => {
             if (errors) return;
             if (isEdit) {
-                this.props.dispatch({
+                await this.props.dispatch({
                     type: 'reportList/update',
                     payload: {
                         ...current,
@@ -43,13 +43,18 @@ class ExampleModal extends React.PureComponent {
                     },
                 })
             } else {
-                this.props.dispatch({
+                let path = '';
+                if (Array.isArray(value.path) && value.path.length > 0) {
+                    if (value.path[0].response) {
+                        path = value.path[0].response.data;
+                    }
+                }
+                if (!path) return message.warn('请先等待上传完成！', 2);
+                await this.props.dispatch({
                     type: 'reportList/add',
                     payload: {
                         ...value,
-                        path: Array.isArray(value.path) && value.path.length > 0
-                            ? value.path[0].response.path
-                            : undefined
+                        path,
                     },
                 })
             }

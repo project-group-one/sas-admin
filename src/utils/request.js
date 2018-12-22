@@ -5,6 +5,7 @@ import hash from 'hash.js';
 import { isAntdPro } from './utils';
 
 const ROOT_PATH = 'http://192.168.11.187:9666';
+export { ROOT_PATH };
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',

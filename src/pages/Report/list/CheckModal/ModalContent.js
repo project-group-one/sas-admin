@@ -20,9 +20,6 @@ class ModalContent extends React.PureComponent {
 
     handleCheck = async () => {
         this.setState({ type: types.CHECKING });
-        setTimeout(() => {
-            this.setState({});
-        }, 2000)
         const result = await this.props.dispatch({
             type: 'reportList/check',
         });
