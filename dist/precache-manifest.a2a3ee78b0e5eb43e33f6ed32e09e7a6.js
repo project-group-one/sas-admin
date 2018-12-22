@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "153eafd77b136b8abf4f",
+    "revision": "f4b2ae6ff84846c837cf",
     "url": "/7.async.js"
   },
   {
-    "revision": "ab82dec449615180c7af",
+    "revision": "577f3fb15466d9525380",
     "url": "/vendors.chunk.css"
   },
   {
@@ -16,19 +16,19 @@ self.__precacheManifest = [
     "url": "/pwacompat.min.js"
   },
   {
-    "revision": "50ad76bdbf361e4ac45e",
+    "revision": "9c396e83335228efac0b",
     "url": "/umi.js"
   },
   {
-    "revision": "50ad76bdbf361e4ac45e",
+    "revision": "9c396e83335228efac0b",
     "url": "/umi.css"
   },
   {
-    "revision": "ab82dec449615180c7af",
+    "revision": "577f3fb15466d9525380",
     "url": "/vendors.async.js"
   },
   {
-    "revision": "a640f8b7dd91f05513f5",
+    "revision": "dd3bb3f5a12bbf8d353d",
     "url": "/9.async.js"
   },
   {
@@ -52,7 +52,7 @@ self.__precacheManifest = [
     "url": "/6.async.js"
   },
   {
-    "revision": "153eafd77b136b8abf4f",
+    "revision": "f4b2ae6ff84846c837cf",
     "url": "/7.chunk.css"
   },
   {
@@ -60,24 +60,24 @@ self.__precacheManifest = [
     "url": "/manifest.json"
   },
   {
-    "revision": "c23aa881b8d0e959f6c0aeb5ae7e4baa",
-    "url": "/icons/icon-192x192.png"
-  },
-  {
-    "revision": "a640f8b7dd91f05513f5",
-    "url": "/9.chunk.css"
-  },
-  {
     "revision": "347329d0982682b42d40c8162817a940",
     "url": "/icons/icon-128x128.png"
   },
   {
-    "revision": "5661ce8e2472d2727e8fd0390b22ba37",
-    "url": "/icons/icon-512x512.png"
+    "revision": "dd3bb3f5a12bbf8d353d",
+    "url": "/9.chunk.css"
+  },
+  {
+    "revision": "c23aa881b8d0e959f6c0aeb5ae7e4baa",
+    "url": "/icons/icon-192x192.png"
   },
   {
     "revision": "694c4300be571fdd4d8b6abbe14d2e3f",
     "url": "/favicon.png"
+  },
+  {
+    "revision": "5661ce8e2472d2727e8fd0390b22ba37",
+    "url": "/icons/icon-512x512.png"
   },
   {
     "revision": "79ef0f3f7611e6243e7a3ff52f9fe4bf",
@@ -88,11 +88,11 @@ self.__precacheManifest = [
     "url": "/4.async.js"
   },
   {
-    "revision": "403455bfe5bd3679913b",
+    "revision": "b3b357a694e6713387b6",
     "url": "/3.chunk.css"
   },
   {
-    "revision": "403455bfe5bd3679913b",
+    "revision": "b3b357a694e6713387b6",
     "url": "/3.async.js"
   },
   {

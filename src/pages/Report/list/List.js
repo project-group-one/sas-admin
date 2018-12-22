@@ -220,18 +220,8 @@ class TableList extends PureComponent {
             <Form onSubmit={this.handleSearch} layout="inline">
                 <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                     <Col md={8} sm={24}>
-                        <FormItem label="规则名称">
+                        <FormItem label="报告名称">
                             {getFieldDecorator('name')(<Input placeholder="请输入" />)}
-                        </FormItem>
-                    </Col>
-                    <Col md={8} sm={24}>
-                        <FormItem label="报告类型">
-                            {getFieldDecorator('type')(
-                                <Select placeholder="请选择" style={{ width: '100%' }}>
-                                    <Option value="type0">类型一</Option>
-                                    <Option value="type1">类型二</Option>
-                                </Select>
-                            )}
                         </FormItem>
                     </Col>
                     <Col md={8} sm={24}>
