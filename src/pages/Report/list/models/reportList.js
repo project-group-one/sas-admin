@@ -17,7 +17,8 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const result = yield call(queryReport, payload);
+      const pagination = { current: 1, pageSize: 20 };
+      const result = yield call(queryReport, { ...pagination, ...payload });
       yield put({
         type: 'set',
         payload: {
