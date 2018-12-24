@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/7.async.js"
   },
   {
-    "revision": "577f3fb15466d9525380",
+    "revision": "119c9dac7e124d89a888",
     "url": "/vendors.chunk.css"
   },
   {
@@ -16,15 +16,15 @@ self.__precacheManifest = [
     "url": "/pwacompat.min.js"
   },
   {
-    "revision": "9c396e83335228efac0b",
+    "revision": "0b887115dc265e35486a",
     "url": "/umi.js"
   },
   {
-    "revision": "9c396e83335228efac0b",
+    "revision": "0b887115dc265e35486a",
     "url": "/umi.css"
   },
   {
-    "revision": "577f3fb15466d9525380",
+    "revision": "119c9dac7e124d89a888",
     "url": "/vendors.async.js"
   },
   {
@@ -80,7 +80,7 @@ self.__precacheManifest = [
     "url": "/favicon.png"
   },
   {
-    "revision": "79ef0f3f7611e6243e7a3ff52f9fe4bf",
+    "revision": "4ac0dccfea3f9ea83205125a5fd5ca46",
     "url": "/index.html"
   },
   {
