@@ -1,6 +1,6 @@
 self.__precacheManifest = [
   {
-    "revision": "f4b2ae6ff84846c837cf",
+    "revision": "5a63c665dfa3f5406a3f",
     "url": "/7.async.js"
   },
   {
@@ -16,11 +16,11 @@ self.__precacheManifest = [
     "url": "/pwacompat.min.js"
   },
   {
-    "revision": "0b887115dc265e35486a",
+    "revision": "42e5df7debe75f51788d",
     "url": "/umi.js"
   },
   {
-    "revision": "0b887115dc265e35486a",
+    "revision": "42e5df7debe75f51788d",
     "url": "/umi.css"
   },
   {
@@ -52,7 +52,7 @@ self.__precacheManifest = [
     "url": "/6.async.js"
   },
   {
-    "revision": "f4b2ae6ff84846c837cf",
+    "revision": "5a63c665dfa3f5406a3f",
     "url": "/7.chunk.css"
   },
   {
@@ -72,12 +72,12 @@ self.__precacheManifest = [
     "url": "/icons/icon-192x192.png"
   },
   {
-    "revision": "347329d0982682b42d40c8162817a940",
-    "url": "/icons/icon-128x128.png"
-  },
-  {
     "revision": "694c4300be571fdd4d8b6abbe14d2e3f",
     "url": "/favicon.png"
+  },
+  {
+    "revision": "347329d0982682b42d40c8162817a940",
+    "url": "/icons/icon-128x128.png"
   },
   {
     "revision": "4ac0dccfea3f9ea83205125a5fd5ca46",
