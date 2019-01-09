@@ -30,6 +30,18 @@ export default [
           },
         ],
       },
+      {
+        path: '/news',
+        name: 'news',
+        icon: 'cloud-download',
+        routes: [
+          {
+            path: '/news/list',
+            name: 'list',
+            component: './News/List',
+          },
+        ],
+      },
       // dashboard
       // {
       //   path: '/dashboard',

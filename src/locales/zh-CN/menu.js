@@ -37,4 +37,6 @@ export default {
   'menu.account.logout': '退出登录',
   'menu.report': '报告',
   'menu.report.list': '检测报告',
+  'menu.news': '新闻',
+  'menu.news.list': '新闻列表',
 };
