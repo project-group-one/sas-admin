@@ -39,34 +39,6 @@ class ModalContent extends React.PureComponent {
         };
         return (
             <div style={{ paddingTop: 30 }}>
-                {
-                    isEdit
-                        ? null
-                        : <FormItem
-                            {...formItemLayout}
-                            label="上传报告"
-                        >
-                            {getFieldDecorator('path', {
-                                rules: [
-                                    { required: true, message: '请上传检测报告' },
-                                ],
-                                valuePropName: 'fileList',
-                                getValueFromEvent: this.normFile,
-                                onChange: this.handleFileChange,
-                            })(
-                                <Upload
-                                    name="file"
-                                    action={`${ROOT_PATH}/api/files`}
-                                    listType="picture"
-                                    onRemove={this.handleFileRemove}
-                                >
-                                    <Button>
-                                        <Icon type="upload" /> 点击上传
-                            </Button>
-                                </Upload>
-                            )}
-                        </FormItem>
-                }
                 <FormItem
                     {...formItemLayout}
                     label="报告名称"

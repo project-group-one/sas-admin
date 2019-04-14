@@ -61,7 +61,8 @@ const cachedSave = (response, hashcode) => {
 };
 
 function getFullPath(url) {
-  if (url.indexOf('reports') > -1 || url.indexOf('files') > -1) {
+  const apiIncludes = ['reports', 'files', 'login'];
+  if (apiIncludes.some(item => url.indexOf(item) > -1)) {
     return `${ROOT_PATH}${url}`;
   }
   return url;
