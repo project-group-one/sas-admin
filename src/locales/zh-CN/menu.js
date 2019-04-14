@@ -39,4 +39,6 @@ export default {
   'menu.report.list': '检测报告',
   'menu.news': '新闻',
   'menu.news.list': '新闻列表',
+  'menu.user': '用户',
+  'menu.user.list': '用户列表'
 };
