@@ -42,6 +42,18 @@ export default [
           },
         ],
       },
+      {
+        path: '/users',
+        name: 'user',
+        icon: 'cloud-download',
+        routes: [
+          {
+            path: '/users',
+            name: 'list',
+            component: './Users'
+          }
+        ]
+      },
       // dashboard
       // {
       //   path: '/dashboard',
