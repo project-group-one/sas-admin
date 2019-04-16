@@ -61,7 +61,7 @@ const cachedSave = (response, hashcode) => {
 };
 
 function getFullPath(url) {
-  const apiIncludes = ['reports', 'files', 'login', 'users'];
+  const apiIncludes = ['reports', 'files', 'login', 'users', 'user', 'auth', 'news'];
   if (apiIncludes.some(item => url.indexOf(item) > -1)) {
     return `${ROOT_PATH}${url}`;
   }
@@ -76,6 +76,7 @@ function getFullPath(url) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, option) {
+  const accessToken = localStorage.getItem('accessToken');
   url = getFullPath(url);
   const options = {
     expirys: isAntdPro(),
@@ -93,6 +94,7 @@ export default function request(url, option) {
 
   const defaultOptions = {
     // credentials: 'include',
+    Authorization: `Bearer ${accessToken}`,
   };
   const newOptions = { ...defaultOptions, ...options };
   if (
@@ -110,8 +112,8 @@ export default function request(url, option) {
     } else {
       // newOptions.body is FormData
       newOptions.headers = {
-        Accept: 'application/json',
         ...newOptions.headers,
+        'Content-Type': 'application/x-www-form-urlencoded',
       };
     }
   }

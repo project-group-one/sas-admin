@@ -17,8 +17,16 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
-      yield put(push('/reports'));
-      console.log(response, 11);
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('expired', response.expired);
+      // yield put({
+      //   type: 'changeLoginStatus',
+      //   payload: {
+      //     status: true,
+      //     currentAuthority: 'guest',
+      //   },
+      // });
+      yield put(push('/reports/list'));
     },
 
     *getCaptcha({ payload }, { call }) {
@@ -34,6 +42,7 @@ export default {
         },
       });
       reloadAuthorized();
+      localStorage.clear();
       yield put(
         routerRedux.push({
           pathname: '/user/login',
