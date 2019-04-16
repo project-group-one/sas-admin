@@ -94,7 +94,9 @@ export default function request(url, option) {
 
   const defaultOptions = {
     // credentials: 'include',
-    Authorization: `Bearer ${accessToken}`,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   };
   const newOptions = { ...defaultOptions, ...options };
   if (
@@ -112,8 +114,8 @@ export default function request(url, option) {
     } else {
       // newOptions.body is FormData
       newOptions.headers = {
+        Accept: 'application/json',
         ...newOptions.headers,
-        'Content-Type': 'application/x-www-form-urlencoded',
       };
     }
   }
@@ -133,6 +135,7 @@ export default function request(url, option) {
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
+  console.log(newOptions, 123123);
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))
