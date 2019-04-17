@@ -94,10 +94,11 @@ export default function request(url, option) {
 
   const defaultOptions = {
     // credentials: 'include',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers: {},
   };
+  if (option && !option.noToken) {
+    defaultOptions.headers.Authorization = `Bearer ${accessToken}`;
+  }
   const newOptions = { ...defaultOptions, ...options };
   if (
     newOptions.method === 'POST' ||
@@ -135,7 +136,6 @@ export default function request(url, option) {
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
-  console.log(newOptions, 123123);
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))

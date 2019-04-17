@@ -5,5 +5,6 @@ export async function login(params) {
   return request(`/auth/token`, {
     method: 'POST',
     body: params,
+    noToken: true,
   });
 }
