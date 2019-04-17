@@ -1,5 +1,13 @@
 import React from 'react';
-import { Upload, Button, Icon, Form, Input, Row, Col } from 'antd';
+import {
+  Upload,
+  Button,
+  Icon,
+  Form,
+  Input,
+  Row,
+  Col,
+} from 'antd';
 import DataContext from './common/DataContext';
 import { ROOT_PATH } from '@/utils/request';
 

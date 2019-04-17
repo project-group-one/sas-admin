@@ -50,9 +50,33 @@ export default [
           {
             path: '/users',
             name: 'list',
-            component: './Users'
-          }
-        ]
+            component: './Users',
+          },
+        ],
+      },
+      {
+        path: '/picture',
+        name: 'picture',
+        icon: 'cloud-download',
+        routes: [
+          {
+            path: '/picture/list',
+            name: 'list',
+            component: './Picture/List',
+          },
+        ],
+      },
+      {
+        path: '/organization',
+        name: 'organization',
+        icon: 'cloud-download',
+        routes: [
+          {
+            path: '/organization/list',
+            name: 'list',
+            component: './Organization/List',
+          },
+        ],
       },
       // dashboard
       // {
