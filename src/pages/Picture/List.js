@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { Avatar } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import {
@@ -17,6 +18,7 @@ import {
 } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { rootPath } from '@/constants';
 import DetailModal from './DetailModal';
 
 import styles from './List.less';
@@ -44,15 +46,18 @@ class TableList extends PureComponent {
   columns = [
     {
       title: '标题',
-      dataIndex: 'title',
+      dataIndex: 'name',
     },
     {
-      title: '作者',
-      dataIndex: 'author',
+      title: '焦点图',
+      dataIndex: 'imgUrl',
+      render: url => {
+        console.log(`${rootPath}${url}`)
+        return <Avatar shape={'square'} src={`${rootPath}${url}`} />},
     },
     {
       title: '创建时间',
-      dataIndex: 'releaseTime',
+      dataIndex: 'createDate',
       sorter: true,
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
