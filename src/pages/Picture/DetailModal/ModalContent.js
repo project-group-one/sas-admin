@@ -3,6 +3,7 @@ import { Upload, Button, Icon, Form, Input, Row, Col, Radio, message } from 'ant
 import DataContext from './common/DataContext';
 import { ROOT_PATH } from '@/utils/request';
 import styles from './index.less';
+import { filePath } from '@/constants';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -76,13 +77,14 @@ class ModalContent extends React.PureComponent {
   };
 
   render() {
-    const { imageUrl, loading } = this.state;
+    const { loading } = this.state;
     const { form, isEdit, current } = this.context;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 9 },
     };
+    const imageUrl = this.state.imageUrl || current.imgUrl;
     // {
     //   "createDate": "2019-04-18T12:52:23.481Z",
     //   "creator": 0,
@@ -103,6 +105,7 @@ class ModalContent extends React.PureComponent {
           {getFieldDecorator('imgUrl', {
             rules: [{ required: true, message: '请上传焦点图' }],
             // valuePropName: 'fileList',
+            initialValue: current.imgUrl,
             getValueFromEvent: this.normFile,
             // onChange: this.handleFileChange,
           })(
@@ -119,7 +122,7 @@ class ModalContent extends React.PureComponent {
               }}
             >
               {imageUrl ? (
-                <img src={imageUrl} alt="avatar" />
+                <img src={this.state.imageUrl ? imageUrl : `${filePath}${imageUrl}`} alt="avatar" />
               ) : (
                 <div>
                   <Icon type={loading ? 'loading' : 'plus'} />

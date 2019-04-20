@@ -61,7 +61,18 @@ const cachedSave = (response, hashcode) => {
 };
 
 function getFullPath(url) {
-  const apiIncludes = ['reports', 'files', 'login', 'users', 'user', 'auth', 'news', 'pic', 'organization'];
+  const apiIncludes = [
+    'reports',
+    'files',
+    'login',
+    'users',
+    'user',
+    'auth',
+    'news',
+    'pic',
+    'organization',
+    'currentUser',
+  ];
   if (apiIncludes.some(item => url.indexOf(item) > -1)) {
     return `${ROOT_PATH}${url}`;
   }
@@ -96,7 +107,7 @@ export default function request(url, option) {
     // credentials: 'include',
     headers: {},
   };
-  if (option && !option.noToken) {
+  if ((option && !option.noToken) || !option) {
     defaultOptions.headers.Authorization = `Bearer ${accessToken}`;
   }
   const newOptions = { ...defaultOptions, ...options };

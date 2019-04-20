@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Layout } from 'antd';
+import { Layout, LocaleProvider } from 'antd';
 import DocumentTitle from 'react-document-title';
 import isEqual from 'lodash/isEqual';
 import memoizeOne from 'memoize-one';
@@ -10,6 +10,7 @@ import pathToRegexp from 'path-to-regexp';
 import Media from 'react-media';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
@@ -205,16 +206,18 @@ class BasicLayout extends React.PureComponent {
     );
     return (
       <React.Fragment>
-        <DocumentTitle title={this.getPageTitle(pathname, breadcrumbNameMap)}>
-          <ContainerQuery query={query}>
-            {params => (
-              <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
-              </Context.Provider>
-            )}
-          </ContainerQuery>
-        </DocumentTitle>
-        {/* <Suspense fallback={<PageLoading />}>{this.renderSettingDrawer()}</Suspense> */}
+        <LocaleProvider locale={zh_CN}>
+          <DocumentTitle title={this.getPageTitle(pathname, breadcrumbNameMap)}>
+            <ContainerQuery query={query}>
+              {params => (
+                <Context.Provider value={this.getContext()}>
+                  <div className={classNames(params)}>{layout}</div>
+                </Context.Provider>
+              )}
+            </ContainerQuery>
+          </DocumentTitle>
+          {/* <Suspense fallback={<PageLoading />}>{this.renderSettingDrawer()}</Suspense> */}
+        </LocaleProvider>
       </React.Fragment>
     );
   }

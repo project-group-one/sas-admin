@@ -2,21 +2,21 @@ import { stringify } from 'qs';
 import request from '@/utils/request';
 
 export function query(params) {
-    return request(`/users?${stringify(params)}`);
+    return request(`/api/user?${stringify(params)}`);
 }
 
 export function find(id) {
-    return request(`/api/users/${id}`);
+    return request(`/api/user/${id}`);
 }
 
 export function remove(id) {
-    return request(`/api/users/${id}`, {
+    return request(`/api/user/${id}`, {
         method: 'DELETE',
     });
 }
 
 export function add(params) {
-    return request('/api/users', {
+    return request('/api/user', {
         method: 'POST',
         body: {
             ...params,
@@ -26,7 +26,7 @@ export function add(params) {
 }
 
 export function update(user) {
-    return request(`/api/users/${user.id}`, {
+    return request(`/api/user/${user.id}`, {
         method: 'PUT',
         body: user,
     });

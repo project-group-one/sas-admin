@@ -1,4 +1,5 @@
 import { queryNotices } from '@/services/api';
+import { queryCurrent } from '@/services/user';
 
 export default {
   namespace: 'global',
@@ -6,9 +7,19 @@ export default {
   state: {
     collapsed: false,
     notices: [],
+    currentUser: localStorage.getItem('currentUser') || {},
   },
 
   effects: {
+    *fetchCurrentUser(_, { call, put }) {
+      const userId = localStorage.getItem('userId');
+      const currentUser = yield call(queryCurrent);
+      localStorage.setItem('currentUser', currentUser);
+      yield put({
+        type: 'saveCurrentUser',
+        payload: currentUser || {},
+      });
+    },
     *fetchNotices(_, { call, put, select }) {
       const data = yield call(queryNotices);
       yield put({
@@ -84,6 +95,12 @@ export default {
       return {
         ...state,
         notices: state.notices.filter(item => item.type !== payload),
+      };
+    },
+    saveCurrentUser(state, { payload: currentUser }) {
+      return {
+        ...state,
+        currentUser,
       };
     },
   },

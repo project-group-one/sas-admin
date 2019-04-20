@@ -10,7 +10,7 @@ export async function fetchPicture(id) {
 }
 
 export async function removePicture(id) {
-  return request(`/api/pic/${id}`, {
+  return request(`/api/pic?${stringify({ ids: id })}`, {
     method: 'DELETE',
   });
 }

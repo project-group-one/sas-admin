@@ -59,7 +59,7 @@ class ExampleModal extends React.PureComponent {
       <Modal
         visible={visible}
         onCancel={this.handleCancel}
-        title={isEdit ? '编辑新闻' : '添加新闻'}
+        title={isEdit ? '编辑焦点图' : '添加焦点图'}
         confirmLoading={isEdit ? updateLoading : addLoading}
         width={800}
         bodyStyle={{ padding: 0, minHeight: 200 }}

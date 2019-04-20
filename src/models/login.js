@@ -2,10 +2,12 @@ import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
 import { login } from '@/services/login';
+import { queryCurrent } from '@/services/user';
 import { push } from 'react-router-redux';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
+import parseJwt from '@/utils/parseJwt';
 
 export default {
   namespace: 'login',
@@ -17,8 +19,12 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
+      localStorage.setItem('userId', response.userId);
       localStorage.setItem('accessToken', response.accessToken);
       localStorage.setItem('expired', response.expired);
+      yield put({
+        type: 'global/fetchCurrentUser',
+      });
       // yield put({
       //   type: 'changeLoginStatus',
       //   payload: {
@@ -26,7 +32,7 @@ export default {
       //     currentAuthority: 'guest',
       //   },
       // });
-      yield put(push('/reports/list'));
+      yield put(push('/report'));
     },
 
     *getCaptcha({ payload }, { call }) {
