@@ -21,62 +21,67 @@ export default [
       {
         path: '/report',
         name: 'report',
-        icon: 'cloud-download',
-        routes: [
-          {
-            path: '/report/list',
-            name: 'list',
-            component: './Report/list/List',
-          },
-        ],
+        icon: 'file',
+        component: './Report/list/List',
+        // routes: [
+        //   {
+        //     path: '/report/list',
+        //     name: 'list',
+        //     component: './Report/list/List',
+        //   },
+        // ],
       },
       {
         path: '/news',
         name: 'news',
-        icon: 'cloud-download',
-        routes: [
-          {
-            path: '/news/list',
-            name: 'list',
-            component: './News/List',
-          },
-        ],
+        icon: 'schedule',
+        component: './News/List',
+        // routes: [
+        //   {
+        //     path: '/news/list',
+        //     name: 'list',
+        //     component: './News/List',
+        //   },
+        // ],
       },
       {
         path: '/users',
         name: 'user',
-        icon: 'cloud-download',
-        routes: [
-          {
-            path: '/users',
-            name: 'list',
-            component: './Users',
-          },
-        ],
+        icon: 'user',
+        component: './Users',
+        // routes: [
+        //   {
+        //     path: '/users',
+        //     name: 'list',
+        //     component: './Users',
+        //   },
+        // ],
       },
       {
         path: '/picture',
         name: 'picture',
-        icon: 'cloud-download',
-        routes: [
-          {
-            path: '/picture/list',
-            name: 'list',
-            component: './Picture/List',
-          },
-        ],
+        icon: 'picture',
+        component: './Picture/List',
+        // routes: [
+        //   {
+        //     path: '/picture/list',
+        //     name: 'list',
+        //     component: './Picture/List',
+        //   },
+        // ],
       },
       {
         path: '/organization',
         name: 'organization',
-        icon: 'cloud-download',
-        routes: [
-          {
-            path: '/organization/list',
-            name: 'list',
-            component: './Organization/List',
-          },
-        ],
+        icon: 'team',
+        component: './Organization/List',
+        // routes: [
+        //   {
+        //     path: '/organization/list',
+        //     name: 'list',
+        //     component: './Organization/List',
+        //   },
+        // ],
       },
       // dashboard
       // {

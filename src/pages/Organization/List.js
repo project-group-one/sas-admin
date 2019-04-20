@@ -43,16 +43,12 @@ class TableList extends PureComponent {
 
   columns = [
     {
-      title: '标题',
-      dataIndex: 'title',
-    },
-    {
-      title: '作者',
-      dataIndex: 'author',
+      title: '名称',
+      dataIndex: 'name',
     },
     {
       title: '创建时间',
-      dataIndex: 'releaseTime',
+      dataIndex: 'createDate',
       sorter: true,
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
@@ -232,7 +228,7 @@ class TableList extends PureComponent {
       </Menu>
     );
     return (
-      <PageHeaderWrapper title="新闻">
+      <PageHeaderWrapper title="组织">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>

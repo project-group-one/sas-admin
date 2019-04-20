@@ -18,7 +18,7 @@ import {
 } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { rootPath } from '@/constants';
+import { filePath } from '@/constants';
 import DetailModal from './DetailModal';
 
 import styles from './List.less';
@@ -52,8 +52,8 @@ class TableList extends PureComponent {
       title: '焦点图',
       dataIndex: 'imgUrl',
       render: url => {
-        console.log(`${rootPath}${url}`)
-        return <Avatar shape={'square'} src={`${rootPath}${url}`} />},
+        return <Avatar shape={'square'} src={`${filePath}${url}`} />;
+      },
     },
     {
       title: '创建时间',
@@ -237,7 +237,7 @@ class TableList extends PureComponent {
       </Menu>
     );
     return (
-      <PageHeaderWrapper title="新闻">
+      <PageHeaderWrapper title="焦点图">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>

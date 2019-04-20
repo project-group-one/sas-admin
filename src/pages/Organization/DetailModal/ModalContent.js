@@ -36,46 +36,16 @@ class ModalContent extends React.PureComponent {
       labelCol: { span: 8 },
       wrapperCol: { span: 9 },
     };
-    //         "author": "string",
-    //   "content": "string",
-    //   "imgUrl": "string",
-    //   "keywords": "string",
-    //   "source": "string",
-    //   "storeUrl": "string",
-    //   "summary": "string",
-    //   "title": "string",
-    //   "type": 0
+    // "createDate": "2019-04-19T02:04:17.633Z",
+    // "id": 0,
+    // "name": "string"
     return (
       <div style={{ paddingTop: 30 }}>
-        <FormItem {...formItemLayout} label="标题">
-          {getFieldDecorator('title', {
-            rules: [{ required: true, message: '请输入标题' }],
-            initialValue: current.title,
-          })(<Input placeholder="请输入标题" />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="作者">
-          {getFieldDecorator('author', {
-            rules: [{ required: true, message: '请输入作者' }],
-            initialValue: current.author,
-          })(<Input placeholder="请输入作者" />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="来源">
-          {getFieldDecorator('source', {
-            rules: [{ required: false, message: '请输入来源' }],
-            initialValue: current.source,
-          })(<Input placeholder="请输入来源" />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="图片">
-          {getFieldDecorator('imgUrl', {
-            rules: [{ required: false, message: '请输入图片' }],
-            initialValue: current.imgUrl,
-          })(<Input placeholder="请输入图片" />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="内容">
-          {getFieldDecorator('content', {
-            rules: [{ required: true, message: '请输入内容' }],
-            initialValue: current.content,
-          })(<Input.TextArea rows={5} placeholder="请输入内容" />)}
+        <FormItem {...formItemLayout} label="组织名称">
+          {getFieldDecorator('name', {
+            rules: [{ required: true, message: '请输入组织名称' }],
+            initialValue: current.name,
+          })(<Input placeholder="请输入组织名称" />)}
         </FormItem>
       </div>
     );
