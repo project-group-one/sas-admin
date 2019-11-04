@@ -3,6 +3,8 @@ import { Upload, Button, Icon, Form, Input, Row, Col } from 'antd';
 import DataContext from './common/DataContext';
 import { ROOT_PATH } from '@/utils/request';
 import { filePath } from '@/constants';
+import RichEditor from '@/components/RichEditor';
+
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -142,6 +144,7 @@ class ModalContent extends React.PureComponent {
             initialValue: current.content,
           })(<Input.TextArea rows={5} placeholder="请输入内容" />)}
         </FormItem>
+        <RichEditor />
       </div>
     );
   }
