@@ -61,9 +61,10 @@ class ExampleModal extends React.PureComponent {
         onCancel={this.handleCancel}
         title={isEdit ? '编辑新闻' : '添加新闻'}
         confirmLoading={isEdit ? updateLoading : addLoading}
-        width={800}
-        bodyStyle={{ padding: 0, minHeight: 200 }}
+        width={1000}
+        bodyStyle={{ padding: 0, minHeight: 500 }}
         onOk={this.handleSubmit}
+        maskClosable={false}
       >
         <Spin spinning={loading}>
           <DataContext.Provider value={{ form, isEdit, current }}>

@@ -1,11 +1,12 @@
 import { Modal, message } from 'antd';
-import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useEffect, memo } from 'react';
 import ReactQuill from 'react-quill';
 import UploadImage from '../UploadImage';
 import 'react-quill/dist/quill.snow.css';
+import { filePath } from '@/constants';
 import styles from './index.less';
 
-const RichEditor = ({ onChange, value }) => {
+const RichEditor = ({ onChange, value = '', placeholder, style, defaultValue }) => {
   const [visible, setVisible] = useState(false);
   const [content, setContent] = useState(value);
   const reactQuillRef = useRef();
@@ -23,6 +24,8 @@ const RichEditor = ({ onChange, value }) => {
   );
   const onImageClick = useCallback(() => {
     setVisible(true);
+    const quill = reactQuillRef.current.getEditor();
+    quill.focus();
   }, []);
   const modules = {
     toolbar: {
@@ -43,19 +46,29 @@ const RichEditor = ({ onChange, value }) => {
     const url = urlRef.current;
     if (!url) return message.warn('请上传图片');
     const quill = reactQuillRef.current.getEditor(); // 获取到编辑器本身
-    const cursorPosition = quill.getSelection().index; // 获取当前光标位置
-    quill.insertEmbed(cursorPosition, 'image', url, Quill.sources.USER); // 插入图片
+    const cursorPosition = quill.selection.savedRange.index;
+    quill.insertEmbed(cursorPosition, 'image', `${filePath}${url}`); // 插入图片
     quill.setSelection(cursorPosition + 1); // 光标位置加1
+    setVisible(false);
   };
-
   return (
     <>
-      <ReactQuill ref={reactQuillRef} value={content} onChange={onChange} modules={modules} />
+      <ReactQuill
+        placeholder={placeholder}
+        ref={reactQuillRef}
+        value={content}
+        onChange={handleChange}
+        modules={modules}
+        style={style}
+        defaultValue={defaultValue}
+        className={styles.container}
+      />
       <Modal
         onCancel={() => setVisible(false)}
         onOk={imageHandler}
         title={'图片上传'}
         visible={visible}
+        key={visible.toString()}
       >
         <div className={styles.uploadImg}>
           <UploadImage onChange={url => (urlRef.current = url)} />
@@ -65,4 +78,4 @@ const RichEditor = ({ onChange, value }) => {
   );
 };
 
-export default RichEditor;
+export default memo(RichEditor);

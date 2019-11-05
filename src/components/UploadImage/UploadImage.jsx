@@ -45,7 +45,9 @@ const UploadImage = ({ value, onChange }) => {
         setUploading(false);
       });
     }
-    console.log(info.file, 1231231);
+    if (onChange) {
+      onChange(info.file.response.data);
+    }
   };
 
   return (

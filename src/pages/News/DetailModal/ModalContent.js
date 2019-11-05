@@ -77,39 +77,30 @@ class ModalContent extends React.PureComponent {
     const imageUrl = this.state.imageUrl || current.imgUrl;
     const { getFieldDecorator } = form;
     const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 9 },
+      labelCol: { span: 3 },
+      wrapperCol: { span: 19 },
     };
-    //         "author": "string",
-    //   "content": "string",
-    //   "imgUrl": "string",
-    //   "keywords": "string",
-    //   "source": "string",
-    //   "storeUrl": "string",
-    //   "summary": "string",
-    //   "title": "string",
-    //   "type": 0
     return (
       <div style={{ paddingTop: 30 }}>
         <FormItem {...formItemLayout} label="标题">
           {getFieldDecorator('title', {
             rules: [{ required: true, message: '请输入标题' }],
             initialValue: current.title,
-          })(<Input placeholder="请输入标题" />)}
+          })(<Input style={{ width: 250 }} placeholder="请输入标题" />)}
         </FormItem>
         <FormItem {...formItemLayout} label="作者">
           {getFieldDecorator('author', {
             rules: [{ required: true, message: '请输入作者' }],
             initialValue: current.author,
-          })(<Input placeholder="请输入作者" />)}
+          })(<Input style={{ width: 250 }} placeholder="请输入作者" />)}
         </FormItem>
         <FormItem {...formItemLayout} label="来源">
           {getFieldDecorator('source', {
             rules: [{ required: false, message: '请输入来源' }],
             initialValue: current.source,
-          })(<Input placeholder="请输入来源" />)}
+          })(<Input style={{ width: 250 }} placeholder="请输入来源" />)}
         </FormItem>
-        <FormItem {...formItemLayout} label="图片">
+        {/* <FormItem {...formItemLayout} label="图片">
           {getFieldDecorator('imgUrl', {
             rules: [{ required: true, message: '请上传图片' }],
             initialValue: current.imgUrl,
@@ -137,14 +128,13 @@ class ModalContent extends React.PureComponent {
               )}
             </Upload>
           )}
-        </FormItem>
+        </FormItem> */}
         <FormItem {...formItemLayout} label="内容">
           {getFieldDecorator('content', {
             rules: [{ required: true, message: '请输入内容' }],
             initialValue: current.content,
-          })(<Input.TextArea rows={5} placeholder="请输入内容" />)}
+          })(<RichEditor placeholder="请输入内容" />)}
         </FormItem>
-        <RichEditor />
       </div>
     );
   }

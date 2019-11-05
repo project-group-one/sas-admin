@@ -57,7 +57,7 @@ if (process.env.APP_TYPE === 'site') {
 export default {
   // add for transfer to umi
   plugins,
-  history: 'hash',
+  // history: 'hash',
   targets: {
     ie: 11,
   },
