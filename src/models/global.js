@@ -14,7 +14,7 @@ export default {
     *fetchCurrentUser(_, { call, put }) {
       const userId = localStorage.getItem('userId');
       const currentUser = yield call(queryCurrent);
-      localStorage.setItem('currentUser', currentUser);
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
       yield put({
         type: 'saveCurrentUser',
         payload: currentUser || {},
