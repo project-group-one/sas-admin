@@ -1,5 +1,5 @@
 import React from 'react';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { connect } from 'dva';
 import { render } from 'react-dom';
 // import RenderAuthorized from '@/components/Authorized';

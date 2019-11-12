@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Card, Table, Button, Input, Divider } from 'antd';
 import moment from 'moment';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import AuditModal from './AuditModal';
 
 import UserEdit from './Edit';
 
@@ -15,6 +16,10 @@ import styles from './index.less';
   loading: loading.effects['news/getUserList'],
 }))
 class Users extends Component {
+  state = {
+    auditModalVisible: false,
+    targetUser: undefined,
+  };
   columns = [
     {
       title: '姓名',
@@ -39,6 +44,14 @@ class Users extends Component {
       render: (value, record) => (
         <React.Fragment>
           <a onClick={() => this.handleEdit(record.id)}>编辑</a>
+          <Divider type="vertical" />
+          <a
+            onClick={() => {
+              this.setState({ auditModalVisible: true, targetUser: record });
+            }}
+          >
+            审核
+          </a>
           <Divider type="vertical" />
           <a onClick={() => {}}>删除</a>
         </React.Fragment>
@@ -76,7 +89,7 @@ class Users extends Component {
 
   render() {
     const { data, loading, queryParams, total } = this.props;
-
+    const { auditModalVisible, targetUser } = this.state;
     const pagination = {
       current: queryParams.current,
       pageSize: queryParams.pageSize,
@@ -116,6 +129,11 @@ class Users extends Component {
           </div>
         </Card>
         <UserEdit />
+        <AuditModal
+          visible={auditModalVisible}
+          targetUser={targetUser}
+          onCancel={() => this.setState({ auditModalVisible: false })}
+        />
       </PageHeaderWrapper>
     );
   }

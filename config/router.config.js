@@ -84,6 +84,12 @@ export default [
         // ],
       },
       {
+        path: '/food-type',
+        name: 'food-type',
+        icon: 'team',
+        component: './FoodType/List',
+      },
+      {
         component: '404',
       },
     ],

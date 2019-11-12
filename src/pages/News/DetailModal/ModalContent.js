@@ -7,6 +7,7 @@ import RichEditor from '@/components/RichEditor';
 
 import styles from './index.less';
 
+const { TextArea } = Input;
 const FormItem = Form.Item;
 const accessToken = localStorage.getItem('accessToken');
 const imageTypes = ['jpeg', 'jpg', 'png', 'gif'];
@@ -99,6 +100,12 @@ class ModalContent extends React.PureComponent {
             rules: [{ required: false, message: '请输入来源' }],
             initialValue: current.source,
           })(<Input style={{ width: 250 }} placeholder="请输入来源" />)}
+        </FormItem>
+        <FormItem {...formItemLayout} label="简介">
+          {getFieldDecorator('summary', {
+            rules: [{ required: true, message: '请输入简介' }],
+            initialValue: current.summary,
+          })(<TextArea style={{ height: 100 }} placeholder="请输入简介" />)}
         </FormItem>
         {/* <FormItem {...formItemLayout} label="图片">
           {getFieldDecorator('imgUrl', {

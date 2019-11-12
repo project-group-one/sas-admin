@@ -3,7 +3,7 @@ import { stringify } from 'qs';
 import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
 import { login } from '@/services/login';
 import { queryCurrent } from '@/services/user';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';

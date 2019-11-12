@@ -81,8 +81,8 @@ class ModalContent extends React.PureComponent {
     const { form, isEdit, current } = this.context;
     const { getFieldDecorator } = form;
     const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 9 },
+      labelCol: { span: 6 },
+      wrapperCol: { span: 13 },
     };
     const imageUrl = this.state.imageUrl || current.imgUrl;
     // {
@@ -122,7 +122,11 @@ class ModalContent extends React.PureComponent {
               }}
             >
               {imageUrl ? (
-                <img src={this.state.imageUrl ? imageUrl : `${filePath}${imageUrl}`} alt="avatar" />
+                <img
+                  style={{ maxWidth: 400, maxHeight: 300 }}
+                  src={this.state.imageUrl ? imageUrl : `${filePath}${imageUrl}`}
+                  alt="avatar"
+                />
               ) : (
                 <div>
                   <Icon type={loading ? 'loading' : 'plus'} />
