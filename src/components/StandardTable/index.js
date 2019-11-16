@@ -106,7 +106,7 @@ class StandardTable extends PureComponent {
           />
         </div>
         <Table
-          rowKey={rowKey || 'key'}
+          rowKey={rowKey || 'key' || 'id'}
           rowSelection={rowSelection}
           dataSource={list}
           pagination={paginationProps}

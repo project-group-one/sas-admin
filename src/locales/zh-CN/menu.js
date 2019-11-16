@@ -44,5 +44,7 @@ export default {
   'menu.organization': '组织',
   'menu.organization.list': '组织列表',
   'menu.user': '用户',
-  'menu.user.list': '用户列表'
+  'menu.user.list': '用户列表',
+  'menu.food-type': '食品类别',
+  'menu.food-type.list': '食品类别列表'
 };

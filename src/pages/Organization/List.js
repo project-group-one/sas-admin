@@ -18,6 +18,8 @@ import {
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DetailModal from './DetailModal';
+import AuditModal from './AuditModal';
+import UserModal from './UserModal';
 
 import styles from './List.less';
 import { ROOT_PATH } from '@/utils/request';
@@ -56,6 +58,34 @@ class TableList extends PureComponent {
       title: '操作',
       render: (text, record) => (
         <Fragment>
+          <a
+            onClick={() =>
+              this.props.dispatch({
+                type: 'organization/set',
+                payload: {
+                  auditModalVisible: true,
+                  current: record,
+                },
+              })
+            }
+          >
+            审核
+          </a>
+          <Divider type="vertical" />
+          <a
+            onClick={() =>
+              this.props.dispatch({
+                type: 'organization/set',
+                payload: {
+                  userModalVisible: true,
+                  id: record.id,
+                },
+              })
+            }
+          >
+            分配用户
+          </a>
+          <Divider type="vertical" />
           <a onClick={() => this.handleDetailModalVisible(true, record.id)}>编辑</a>
           <Divider type="vertical" />
           <a onClick={this.handleRemove(record.id)}>删除</a>
@@ -261,6 +291,8 @@ class TableList extends PureComponent {
           </div>
         </Card>
         <DetailModal />
+        <AuditModal />
+        <UserModal />
       </PageHeaderWrapper>
     );
   }

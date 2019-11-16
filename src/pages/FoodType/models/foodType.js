@@ -17,11 +17,13 @@ export default {
       yield put({
         type: 'setState',
         payload: {
-          data: {
-            key: 0,
-            title: '食品',
-            children: result,
-          },
+          data: [
+            {
+              key: -1,
+              title: '食品',
+              children: result,
+            },
+          ],
         },
       });
     },

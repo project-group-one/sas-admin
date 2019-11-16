@@ -20,6 +20,7 @@ class Users extends Component {
     auditModalVisible: false,
     targetUser: undefined,
   };
+
   columns = [
     {
       title: '姓名',

@@ -34,3 +34,27 @@ export async function checkOrganization(id) {
     method: 'PATCH',
   });
 }
+
+// status: WAIT_AUDIT | AUDITING | FAIL | SUCCESS
+export async function auditOrganization(id, body) {
+  return request(`/api/organization/${id}/audit`, {
+    method: 'PUT',
+    body,
+  });
+}
+
+/**
+ * 
+ * @param {{
+ *   "orgId": 0,
+ *   "userIds": [
+ *   0
+ *   ]
+ * }} body 
+ */
+export async function addUsers(body) {
+  return request(`/api/organization/users`, {
+    method: 'PUT',
+    body,
+  });
+}

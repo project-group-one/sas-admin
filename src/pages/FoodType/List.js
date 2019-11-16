@@ -1,18 +1,15 @@
-import React, { PureComponent, Fragment, useEffect, useState } from 'react';
-import moment from 'moment';
-import { Row, Col, Card, Icon, Button, Modal, Tree, Tooltip } from 'antd';
-import StandardTable from '@/components/StandardTable';
+import { Card, Icon, Tree, Tooltip } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DetailModal from './DetailModal';
+import Detail from './Detail';
 
 import styles from './List.less';
-import { ROOT_PATH } from '@/utils/request';
-import { useDispatch, useSelector } from 'react-redux';
 
-const { TreeNode } = Tree;
 const CardGrid = Card.Grid;
 
-const List = ({}) => {
+const List = () => {
   const [currentNode, setCurrentNode] = useState();
   const data = useSelector(state => state.foodType.data);
   const dispatch = useDispatch();
@@ -31,7 +28,10 @@ const List = ({}) => {
             <Tooltip title={!currentNode && '请先选择一个食品类别'}>
               <Icon
                 onClick={e => {
-                  if (!currentNode) return e.stopPropagation();
+                  if (!currentNode) {
+                    e.stopPropagation();
+                    return;
+                  }
                   dispatch({
                     type: 'foodType/setState',
                     payload: { detailModalVisible: true, currentNode, isEdit: true },
@@ -45,9 +45,12 @@ const List = ({}) => {
             <Tooltip title={!currentNode && '请先选择一个食品类别'}>
               <Icon
                 className={!currentNode && styles.disabled}
-                type={'plus'}
+                type="plus"
                 onClick={e => {
-                  if (!currentNode) return e.stopPropagation();
+                  if (!currentNode) {
+                    e.stopPropagation();
+                    return;
+                  }
                   dispatch({
                     type: 'foodType/setState',
                     payload: { detailModalVisible: true, currentNode, isEdit: false },
@@ -68,11 +71,12 @@ const List = ({}) => {
               );
             }}
             showLine
+            defaultExpandedKeys={['-1']}
             treeData={data}
           />
         </CardGrid>
         <CardGrid hoverable={false} style={{ width: '75%', minHeight: 500 }}>
-          aa
+          <Detail />
         </CardGrid>
       </Card>
       <DetailModal />

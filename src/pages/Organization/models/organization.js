@@ -5,8 +5,9 @@ import {
   addOrganization,
   fetchOrganization,
   removeOrganization,
-  checkOrganization,
+  addUsers,
 } from '@/services/organization';
+import { getNoOrgUsers } from '@/services/users';
 
 export default {
   namespace: 'organization',
@@ -18,12 +19,20 @@ export default {
     },
     current: {},
     detailModalVisible: false,
+    auditModalVisible: false,
+    userModalVisible: false,
+    noOrgUsers: [],
+    id: undefined,
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
       const pagination = { current: 1, pageSize: 20 };
       const result = yield call(queryOrganization, { ...pagination, ...payload });
+      // const result = {
+      //   data: [{ id: 1, name: '123123' }],
+      //   pagination: {},
+      // };
       yield put({
         type: 'set',
         payload: {
@@ -34,8 +43,9 @@ export default {
         },
       });
     },
-    *fetchItem({ payload }, { call, put }) {
-      const result = yield call(fetchOrganization, payload);
+    *fetchItem({ payload }, { call, put, select }) {
+      const id = yield select(state => state.organization.id);
+      const result = yield call(fetchOrganization, id);
       yield put({
         type: 'set',
         payload: { current: result || {} },
@@ -61,6 +71,17 @@ export default {
         type: 'fetch',
       });
       message.success('删除成功', 2);
+    },
+    *getNoOrgUsers({ payload }, { call, put }) {
+      const users = yield call(getNoOrgUsers);
+      yield put({
+        type: 'set',
+        payload: { noOrgUsers: users.data || [] },
+      });
+    },
+    *addUsers({ payload }, { call, put }) {
+      yield call(addUsers, payload);
+      message.success('添加用户成功', 2);
     },
   },
 

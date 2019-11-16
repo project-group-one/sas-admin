@@ -35,9 +35,10 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'linebreak-style': 0,
-    'no-use-before-define': false,
-    'ordered-imports': false,
-    'no-shadowed-variable': false,
+    'no-use-before-define': 0,
+    'no-unused-vars': 1,
+    'ordered-imports': 0,
+    'no-shadowed-variable': 0,
   },
   settings: {
     polyfills: ['fetch', 'promises', 'url'],

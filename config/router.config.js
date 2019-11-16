@@ -86,7 +86,7 @@ export default [
       {
         path: '/food-type',
         name: 'food-type',
-        icon: 'team',
+        icon: 'coffee',
         component: './FoodType/List',
       },
       {

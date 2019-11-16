@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import DataContext from './common/DataContext';
-import { Upload, Button, Icon, Form, Input, Row, Col } from 'antd';
-
-import styles from './index.less';
 import { useSelector } from 'dva';
+import { Form, Input } from 'antd';
+import DataContext from './common/DataContext';
+import styles from './index.less';
 
 const FormItem = Form.Item;
 
-const ModalContent = ({}) => {
+const ModalContent = () => {
   const { form, current, isEdit } = useContext(DataContext);
   const currentNode = useSelector(state => {
     console.log(state.foodType, 12312);
