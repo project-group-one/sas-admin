@@ -26,12 +26,15 @@ class UserEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields(err => {
+    this.props.form.validateFields((err, value) => {
       if (!err) {
         const { user, dispatch } = this.props;
         dispatch({
           type: 'users/updateUser',
-          payload: user,
+          payload: {
+            id: user ? user.id : undefined,
+            ...value,
+          },
         });
       }
     });
@@ -40,7 +43,6 @@ class UserEdit extends Component {
   render() {
     const { visible, user, form } = this.props;
     const { getFieldDecorator } = form;
-
     return (
       <Modal
         visible={visible}
@@ -48,7 +50,7 @@ class UserEdit extends Component {
         title={user.id ? '编辑用户' : '添加用户'}
         maskClosable={false}
         onCancel={this.handleCancel}
-        onOk={() => {}}
+        onOk={this.handleSubmit}
       >
         <Form>
           <Form.Item {...formItemLayout} label="用户名" required>

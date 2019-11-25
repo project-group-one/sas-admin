@@ -1,14 +1,22 @@
 import { message } from 'antd';
 import { queryFoodType, updateFoodType, addFoodType } from '@/services/foodType';
+import { getRegulation, updateRegulation } from '@/services/regulation';
 
 export default {
   namespace: 'foodType',
 
   state: {
     data: [],
+    /**
+     * {
+     *  title: string,
+     *  key: string | number
+     * }
+     */
     currentNode: undefined,
     detailModalVisible: false,
     isEdit: false,
+    regulation: {},
   },
 
   effects: {
@@ -21,25 +29,19 @@ export default {
             {
               key: -1,
               title: '食品',
-              children: result,
+              children: result.data,
             },
           ],
         },
       });
     },
-    *fetchItem({ payload }, { call, put }) {
-      const result = yield call(fetchFoodType, payload);
+    *updateRegulation({ payload }, { call, put }) {
+      yield call(updateRegulation, payload);
       yield put({
-        type: 'set',
-        payload: { current: result.data },
+        type: 'getRegulation',
+        payload: payload.typeId,
       });
-    },
-    *update({ payload }, { call, put }) {
-      yield call(updateFoodType, payload);
-      yield put({
-        type: 'fetch',
-      });
-      message.success('修改成功', 2);
+      message.success('更新成功', 2);
     },
     *add({ payload }, { call, put }) {
       yield call(addFoodType, payload);
@@ -48,12 +50,14 @@ export default {
       });
       message.success('保存成功', 2);
     },
-    *remove({ payload }, { call, put }) {
-      yield call(removeFoodType, payload);
+    *getRegulation({ payload }, { call, put }) {
+      const result = yield call(getRegulation, payload);
       yield put({
-        type: 'fetch',
+        type: 'set',
+        payload: {
+          regulation: result.data || {},
+        },
       });
-      message.success('删除成功', 2);
     },
   },
 

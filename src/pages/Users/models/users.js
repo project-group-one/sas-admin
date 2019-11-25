@@ -1,4 +1,5 @@
-import { query, find, add, update } from '@/services/users';
+import { query, find, add, update, freezeUser, thawUser } from '@/services/users';
+import { message } from 'antd';
 
 export default {
   namespace: 'users',
@@ -7,7 +8,7 @@ export default {
     list: [],
     queryParams: {
       current: 1,
-      pageSize: 10
+      pageSize: 10,
     },
     total: 0,
     user: {},
@@ -23,23 +24,49 @@ export default {
         type: 'set',
         payload: {
           list: result.data,
-          total: result.pagination.total,
+          total: result.pagination ? result.pagination.total : result.data.length,
           queryParams: { ...payload },
         },
       });
     },
     *getUser({ payload }, { call, put }) {
       const result = yield call(find, payload);
-      if (result.data) {
+      if (result) {
         yield put({
           type: 'setUser',
-          payload: result.data,
+          payload: result.data || [],
         });
       }
     },
-    *updateUser({ payload }, { call, put }) {
-      let func = payload.id ? update : add;
-      const result = yield call(func, payload);
+    *updateUser({ payload }, { call, select }) {
+      const currentUserId = yield select(state => state.global.currentUser.id);
+      if (payload.id) {
+        yield call(update, payload, currentUserId);
+      } else {
+        yield call(add, payload, currentUserId);
+      }
+
+      message.success('保存成功');
+    },
+    *toggleUserStatus(
+      {
+        payload: { targetUserId, enabled },
+      },
+      { call, put, select }
+    ) {
+      const currentUserId = yield select(state => state.global.currentUser.id);
+      if (enabled) {
+        yield call(thawUser, targetUserId);
+      } else {
+        yield call(freezeUser, {
+          targetUserId,
+          currentUserId,
+        });
+      }
+
+      yield put({
+        type: 'getUserList',
+      });
     },
   },
 

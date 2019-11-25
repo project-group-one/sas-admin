@@ -1,4 +1,4 @@
-import { Card, Icon, Tree, Tooltip } from 'antd';
+import { Card, Icon, Tree, Tooltip, Empty } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -10,10 +10,9 @@ import styles from './List.less';
 const CardGrid = Card.Grid;
 
 const List = () => {
-  const [currentNode, setCurrentNode] = useState();
   const data = useSelector(state => state.foodType.data);
+  const currentNode = useSelector(state => state.foodType.currentNode);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch({
       type: 'foodType/fetch',
@@ -53,7 +52,7 @@ const List = () => {
                   }
                   dispatch({
                     type: 'foodType/setState',
-                    payload: { detailModalVisible: true, currentNode, isEdit: false },
+                    payload: { detailModalVisible: true, isEdit: false },
                   });
                 }}
               />
@@ -61,14 +60,22 @@ const List = () => {
           </div>
           <Tree
             onSelect={(selectedKeys, e) => {
-              setCurrentNode(
-                selectedKeys.length > 0
-                  ? {
-                      title: e.node.props.title,
-                      key: e.node.props.eventKey,
-                    }
-                  : undefined
-              );
+              dispatch({
+                type: 'foodType/setState',
+                payload: {
+                  currentNode:
+                    selectedKeys.length > 0
+                      ? {
+                          title: e.node.props.title,
+                          key: e.node.props.eventKey,
+                        }
+                      : undefined,
+                },
+              });
+              dispatch({
+                type: 'foodType/getRegulation',
+                payload: e.node.props.eventKey,
+              });
             }}
             showLine
             defaultExpandedKeys={['-1']}
@@ -76,7 +83,11 @@ const List = () => {
           />
         </CardGrid>
         <CardGrid hoverable={false} style={{ width: '75%', minHeight: 500 }}>
-          <Detail />
+          {currentNode ? (
+            <Detail />
+          ) : (
+            <Empty style={{ marginTop: 100 }} description="请选择一个食品类型" />
+          )}
         </CardGrid>
       </Card>
       <DetailModal />

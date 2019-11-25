@@ -6,6 +6,7 @@ import {
   fetchOrganization,
   removeOrganization,
   addUsers,
+  auditOrganization,
 } from '@/services/organization';
 import { getNoOrgUsers } from '@/services/users';
 
@@ -44,7 +45,7 @@ export default {
       });
     },
     *fetchItem({ payload }, { call, put, select }) {
-      const id = yield select(state => state.organization.id);
+      const id = yield select(state => state.organization.current.id);
       const result = yield call(fetchOrganization, id);
       yield put({
         type: 'set',
@@ -82,6 +83,11 @@ export default {
     *addUsers({ payload }, { call, put }) {
       yield call(addUsers, payload);
       message.success('添加用户成功', 2);
+    },
+    *auditOrganization({ payload }, { call, select }) {
+      const id = yield select(state => state.organization.current.id);
+      yield call(auditOrganization, id, payload);
+      message.success('审核成功', 2);
     },
   },
 

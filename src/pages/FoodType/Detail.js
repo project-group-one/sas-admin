@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Input } from 'antd';
-import { useDispatch } from 'dva';
+import { useDispatch, useSelector } from 'dva';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -8,6 +8,31 @@ const { TextArea } = Input;
 const Detail = ({ form }) => {
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
+  const regulation = useSelector(state => state.foodType.regulation);
+  const currentNode = useSelector(state => state.foodType.currentNode);
+  const updateLoading = useSelector(state => state.loading.effects['foodType/updateRegulation']);
+
+  useEffect(
+    () => {
+      form.resetFields();
+    },
+    [regulation]
+  );
+
+  const handleSave = () => {
+    form.validateFieldsAndScroll((error, value) => {
+      if (error) return;
+      dispatch({
+        type: 'foodType/updateRegulation',
+        payload: {
+          ...value,
+          typeId: currentNode.key,
+        },
+      }).then(() => {
+        setIsEdit(false);
+      });
+    });
+  };
   const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
@@ -15,23 +40,44 @@ const Detail = ({ form }) => {
   return (
     <div>
       <Form>
+        {form.getFieldDecorator('id', {
+          initialValue: regulation.id,
+        })(<Input type="hidden" />)}
         <FormItem {...formItemLayout} label="产品种类">
-          {form.getFieldDecorator('title1', {
+          {form.getFieldDecorator('category', {
             rules: [{ required: false, message: '请输入产品种类' }],
-            initialValue: undefined,
+            initialValue: regulation.category,
           })(<TextArea disabled={!isEdit} placeholder="请输入产品种类" style={{ height: 120 }} />)}
         </FormItem>
         <FormItem {...formItemLayout} label="抽检依据">
-          {form.getFieldDecorator('title2', {
+          {form.getFieldDecorator('samplingBasis', {
             rules: [{ required: false, message: '请输入抽检依据' }],
-            initialValue: undefined,
+            initialValue: regulation.samplingBasis,
           })(<TextArea disabled={!isEdit} placeholder="请输入抽检依据" style={{ height: 120 }} />)}
         </FormItem>
         <FormItem {...formItemLayout} label="抽检要求">
-          {form.getFieldDecorator('title3', {
+          {form.getFieldDecorator('demand', {
             rules: [{ required: false, message: '请输入抽检要求' }],
-            initialValue: undefined,
+            initialValue: regulation.demand,
           })(<TextArea disabled={!isEdit} placeholder="请输入抽检要求" style={{ height: 120 }} />)}
+        </FormItem>
+        <FormItem {...formItemLayout} label="注意事项">
+          {form.getFieldDecorator('attention', {
+            rules: [{ required: false, message: '请输入注意事项' }],
+            initialValue: regulation.attention,
+          })(<TextArea disabled={!isEdit} placeholder="请输入注意事项" style={{ height: 120 }} />)}
+        </FormItem>
+        <FormItem {...formItemLayout} label="判断原则">
+          {form.getFieldDecorator('conclusion', {
+            rules: [{ required: false, message: '请输入判断原则' }],
+            initialValue: regulation.conclusion,
+          })(<TextArea disabled={!isEdit} placeholder="请输入判断原则" style={{ height: 120 }} />)}
+        </FormItem>
+        <FormItem {...formItemLayout} label="适用范围">
+          {form.getFieldDecorator('range', {
+            rules: [{ required: false, message: '请输入适用范围' }],
+            initialValue: regulation.range,
+          })(<TextArea disabled={!isEdit} placeholder="请输入适用范围" style={{ height: 120 }} />)}
         </FormItem>
         <FormItem {...formItemLayout} label=" " colon={false}>
           <div style={{ textAlign: 'right' }}>
@@ -47,13 +93,10 @@ const Detail = ({ form }) => {
                   取消
                 </Button>
                 <Button
+                  disabled={updateLoading}
+                  loading={updateLoading}
                   type="primary"
-                  onClick={() => {
-                    dispatch({
-                      type: 'foodType/saveRegulation',
-                      payload: {},
-                    });
-                  }}
+                  onClick={handleSave}
                 >
                   保存
                 </Button>

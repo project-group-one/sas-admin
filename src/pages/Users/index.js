@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Table, Button, Input, Divider } from 'antd';
+import { Card, Table, Button, Input, Divider, Switch, Modal } from 'antd';
 import moment from 'moment';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import AuditModal from './AuditModal';
@@ -42,6 +42,7 @@ class Users extends Component {
     },
     {
       title: '操作',
+      dataIndex: 'id',
       render: (value, record) => (
         <React.Fragment>
           <a onClick={() => this.handleEdit(record.id)}>编辑</a>
@@ -53,6 +54,26 @@ class Users extends Component {
           >
             审核
           </a>
+          <Divider type="vertical" />
+          <Switch
+            checked={record.status === 0}
+            checkedChildren="启用"
+            unCheckedChildren="冻结"
+            onChange={checked => {
+              Modal.confirm({
+                title: `是否确定${!checked ? '冻结' : '启用'}该用户？`,
+                onOk: () => {
+                  this.props.dispatch({
+                    type: 'users/toggleUserStatus',
+                    payload: {
+                      targetUserId: record.id,
+                      enabled: checked,
+                    },
+                  });
+                },
+              });
+            }}
+          />
           <Divider type="vertical" />
           <a onClick={() => {}}>删除</a>
         </React.Fragment>
@@ -112,13 +133,14 @@ class Users extends Component {
               />
             </div>
             <div className="action-bar">
-              <Button type="primary" icon="plus" onClick={this.handleEdit}>
+              <Button type="primary" icon="plus" onClick={() => this.handleEdit()}>
                 添加
               </Button>
             </div>
           </div>
           <div className={styles['table-wrapper']}>
             <Table
+              rowKey="id"
               loading={loading}
               columns={this.columns}
               dataSource={data}

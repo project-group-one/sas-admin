@@ -7,7 +7,9 @@ export default {
   state: {
     collapsed: false,
     notices: [],
-    currentUser: localStorage.getItem('currentUser') || {},
+    currentUser: localStorage.getItem('currentUser')
+      ? JSON.parse(localStorage.getItem('currentUser'))
+      : {},
   },
 
   effects: {
@@ -17,7 +19,7 @@ export default {
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       yield put({
         type: 'saveCurrentUser',
-        payload: currentUser || {},
+        payload: currentUser.data || {},
       });
     },
     *fetchNotices(_, { call, put, select }) {

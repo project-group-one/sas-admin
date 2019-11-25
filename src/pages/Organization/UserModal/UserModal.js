@@ -6,27 +6,33 @@ const UserModal = ({}) => {
   const dispatch = useDispatch();
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [targetKeys, setTargetKeys] = useState([]);
-  const dataSource = useSelector(state =>
-    state.organization.noOrgUsers.map(item => ({
-      key: item.id,
-      title: item.name,
-    }))
-  );
+  const { dataSource, current } = useSelector(state => {
+    const currentTarget = state.organization.current;
+    return {
+      dataSource: state.organization.noOrgUsers.concat(currentTarget.users || []).map(item => ({
+        key: item.id,
+        title: item.name,
+      })),
+      current: currentTarget,
+    };
+  });
   const visible = useSelector(state => state.organization.userModalVisible);
   const noOrgUsers = useSelector(state => state.organization.noOrgUsers);
-  const current = useSelector(state => state.organization.current);
 
-  useEffect(() => {
-    if (visible) {
-      dispatch({
-        type: 'organization/getNoOrgUsers',
-      });
-      dispatch({
-        type: 'organization/fetchItem',
-      });
-    }
-    return () => {};
-  }, [visible]);
+  useEffect(
+    () => {
+      if (visible) {
+        dispatch({
+          type: 'organization/getNoOrgUsers',
+        });
+        dispatch({
+          type: 'organization/fetchItem',
+        });
+      }
+      return () => {};
+    },
+    [visible]
+  );
 
   useEffect(
     () => {
@@ -63,13 +69,14 @@ const UserModal = ({}) => {
           type: 'organization/addUsers',
           payload: {
             orgId: current.id,
-            userIds: dataSource.filter(item => targetKeys.includes(item.id)).map(item => item.id),
+            userIds: dataSource.filter(item => targetKeys.includes(item.key)).map(item => item.key),
           },
         });
       }}
       onCancel={handleCancel}
     >
       <Transfer
+        style={{ marginLeft: 34 }}
         dataSource={dataSource}
         titles={['组织', '用户']}
         targetKeys={targetKeys}

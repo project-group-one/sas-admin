@@ -145,25 +145,33 @@ export default function request(url, option) {
     })
     .catch(e => {
       const status = e.name;
+      const { response } = e;
+      if (!response) {
+        notification.error({ title: '请求异常！' });
+        return '';
+      }
       if (status === 401) {
         // @HACK
         /* eslint-disable no-underscore-dangle */
         window.g_app._store.dispatch({
           type: 'login/logout',
         });
-        return;
+        return response.json();
       }
       // environment should not be used
       if (status === 403) {
         router.push('/exception/403');
-        return;
+        return response.json();
       }
       if (status <= 504 && status >= 500) {
         router.push('/exception/500');
-        return;
+        return response.json();
       }
       if (status >= 404 && status < 422) {
         router.push('/exception/404');
+        return response.json();
       }
+      console.log(response, 123123123);
+      return response.json();
     });
 }

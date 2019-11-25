@@ -15,21 +15,28 @@ export function remove(id) {
   });
 }
 
-export function add(params) {
-  return request('/api/user', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'post',
-    },
-  });
+export function add(params, currentUserId) {
+  return request(
+    `/api/user?${stringify({
+      id: currentUserId,
+    })}`,
+    {
+      method: 'POST',
+      body: params,
+    }
+  );
 }
 
-export function update(user) {
-  return request(`/api/user/${user.id}`, {
-    method: 'PUT',
-    body: user,
-  });
+export function update(user, currentUserId) {
+  return request(
+    `/api/user/${user.id}?${stringify({
+      id: currentUserId,
+    })}`,
+    {
+      method: 'PUT',
+      body: user,
+    }
+  );
 }
 
 export function getNoOrgUsers() {
@@ -38,8 +45,20 @@ export function getNoOrgUsers() {
   });
 }
 
-// export function check(id) {
-//     return request(`/api/users/${id}/detection`, {
-//         method: 'PATCH',
-//     })
-// }
+export function freezeUser({ targetUserId, currentUserId }) {
+  return request(
+    `/api/user/${targetUserId}/freeze?${stringify({
+      id: currentUserId,
+    })}`,
+    {
+      method: 'POST',
+    }
+  );
+}
+
+// 解冻用户
+export function thawUser(targetUserId) {
+  return request(`/api/user/${targetUserId}/thaw`, {
+    method: 'POST',
+  });
+}
