@@ -33,7 +33,7 @@ export default {
       const result = yield call(fetchReport, payload);
       yield put({
         type: 'set',
-        payload: { current: result },
+        payload: { current: result.data },
       });
     },
     *update({ payload }, { call, put }) {

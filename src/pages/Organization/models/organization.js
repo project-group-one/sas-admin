@@ -45,11 +45,11 @@ export default {
       });
     },
     *fetchItem({ payload }, { call, put, select }) {
-      const id = yield select(state => state.organization.current.id);
+      const id = yield select(state => state.organization.id);
       const result = yield call(fetchOrganization, id);
       yield put({
         type: 'set',
-        payload: { current: result || {} },
+        payload: { current: result.data || {} },
       });
     },
     *update({ payload }, { call, put }) {
