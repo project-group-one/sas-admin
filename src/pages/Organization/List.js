@@ -59,15 +59,18 @@ class TableList extends PureComponent {
       render: (text, record) => (
         <Fragment>
           <a
-            onClick={() =>
+            onClick={() => {
               this.props.dispatch({
                 type: 'organization/set',
                 payload: {
                   auditModalVisible: true,
-                  current: record,
+                  id: record.id,
                 },
-              })
-            }
+              });
+              this.props.dispatch({
+                type: 'organization/fetchItem',
+              });
+            }}
           >
             审核
           </a>
