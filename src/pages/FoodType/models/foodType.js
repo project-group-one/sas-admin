@@ -35,6 +35,13 @@ export default {
         },
       });
     },
+    *update({ payload }, { call, put }) {
+      yield call(updateFoodType, payload);
+      yield put({
+        type: 'fetch',
+      });
+      message.success('修改成功', 2);
+    },
     *updateRegulation({ payload }, { call, put }) {
       yield call(updateRegulation, payload);
       yield put({

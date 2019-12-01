@@ -41,14 +41,19 @@ export default {
         });
       }
     },
-    *updateUser({ payload }, { call, select }) {
+    *updateUser({ payload }, { call, select, put }) {
       const currentUserId = yield select(state => state.global.currentUser.id);
       if (payload.id) {
         yield call(update, payload, currentUserId);
       } else {
         yield call(add, payload, currentUserId);
       }
-
+      yield put({
+        type: 'set',
+        payload: {
+          editModalVisible: false,
+        },
+      });
       message.success('保存成功');
     },
     *toggleUserStatus(
@@ -75,6 +80,12 @@ export default {
       yield call(userAudit, payload);
       yield put({
         type: 'getUserList',
+      });
+      yield put({
+        type: 'set',
+        payload: {
+          editModalVisible: false,
+        },
       });
     },
     *getUserAuditDetail({ payload }, { call, put }) {

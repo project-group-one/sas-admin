@@ -147,7 +147,6 @@ export default function request(url, option) {
       const status = e.name;
       const { response } = e;
       if (!response) {
-        notification.error({ title: '请求异常！' });
         return '';
       }
       if (status === 401) {
