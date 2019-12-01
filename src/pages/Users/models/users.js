@@ -1,4 +1,6 @@
 import { query, find, add, update, freezeUser, thawUser } from '@/services/users';
+import { userAudit, getUserAuditDetail } from '@/services/admin';
+
 import { message } from 'antd';
 
 export default {
@@ -12,6 +14,7 @@ export default {
     },
     total: 0,
     user: {},
+    userAuditDetail: {},
     editModalVisible: false,
   },
 
@@ -66,6 +69,21 @@ export default {
 
       yield put({
         type: 'getUserList',
+      });
+    },
+    *userAudit({ payload }, { call, put }) {
+      yield call(userAudit, payload);
+      yield put({
+        type: 'getUserList',
+      });
+    },
+    *getUserAuditDetail({ payload }, { call, put }) {
+      const result = yield call(getUserAuditDetail, payload);
+      yield put({
+        type: 'set',
+        payload: {
+          userAuditDetail: result.data || {},
+        },
       });
     },
   },

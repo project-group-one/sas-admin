@@ -17,20 +17,13 @@ export default [
     Routes: ['src/pages/Authorized'],
     // authority: ['admin', 'user'],
     routes: [
-      { path: '/', redirect: '/report' },
-      {
-        path: '/report',
-        name: 'report',
-        icon: 'file',
-        component: './Report/list/List',
-        // routes: [
-        //   {
-        //     path: '/report/list',
-        //     name: 'list',
-        //     component: './Report/list/List',
-        //   },
-        // ],
-      },
+      { path: '/', redirect: '/news' },
+      // {
+      //   path: '/report',
+      //   name: 'report',
+      //   icon: 'file',
+      //   component: './Report/list/List',
+      // },
       {
         path: '/news',
         name: 'news',

@@ -16,10 +16,11 @@ export default {
     *fetchCurrentUser(_, { call, put }) {
       const userId = localStorage.getItem('userId');
       const currentUser = yield call(queryCurrent);
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      const current = currentUser.data || {};
+      localStorage.setItem('currentUser', JSON.stringify(current));
       yield put({
         type: 'saveCurrentUser',
-        payload: currentUser.data || {},
+        payload: current,
       });
     },
     *fetchNotices(_, { call, put, select }) {

@@ -9,9 +9,10 @@ import UserEdit from './Edit';
 
 import styles from './index.less';
 
-@connect(({ loading, users }) => ({
+@connect(({ loading, users, global }) => ({
   data: users.list,
   queryParams: users.queryParams,
+  currentUser: global.currentUser,
   total: users.total,
   loading: loading.effects['news/getUserList'],
 }))
@@ -47,35 +48,45 @@ class Users extends Component {
         <React.Fragment>
           <a onClick={() => this.handleEdit(record.id)}>编辑</a>
           <Divider type="vertical" />
-          <a
-            onClick={() => {
-              this.setState({ auditModalVisible: true, targetUser: record });
-            }}
-          >
-            审核
-          </a>
-          <Divider type="vertical" />
-          <Switch
-            checked={record.status === 0}
-            checkedChildren="启用"
-            unCheckedChildren="冻结"
-            onChange={checked => {
-              Modal.confirm({
-                title: `是否确定${!checked ? '冻结' : '启用'}该用户？`,
-                onOk: () => {
-                  this.props.dispatch({
-                    type: 'users/toggleUserStatus',
-                    payload: {
-                      targetUserId: record.id,
-                      enabled: checked,
-                    },
-                  });
-                },
-              });
-            }}
-          />
-          <Divider type="vertical" />
-          <a onClick={() => {}}>删除</a>
+          {record.verified === false && (
+            <>
+              <a
+                onClick={() => {
+                  this.setState({ auditModalVisible: true, targetUser: record });
+                }}
+              >
+                审核
+              </a>
+              <Divider type="vertical" />
+            </>
+          )}
+          {this.props.currentUser.id !== record.id && (
+            <Switch
+              checked={record.status === 0}
+              checkedChildren="启用"
+              unCheckedChildren="冻结"
+              onChange={checked => {
+                Modal.confirm({
+                  title: `是否确定${!checked ? '冻结' : '启用'}该用户？`,
+                  onOk: () => {
+                    this.props.dispatch({
+                      type: 'users/toggleUserStatus',
+                      payload: {
+                        targetUserId: record.id,
+                        enabled: checked,
+                      },
+                    });
+                  },
+                });
+              }}
+            />
+          )}
+          {this.props.currentUser.id !== record.id && (
+            <>
+              <Divider type="vertical" />
+              <a onClick={() => {}}>删除</a>
+            </>
+          )}
         </React.Fragment>
       ),
     },

@@ -32,7 +32,7 @@ export default {
       //     currentAuthority: 'guest',
       //   },
       // });
-      yield put(push('/report'));
+      yield put(push('/news'));
     },
 
     *getCaptcha({ payload }, { call }) {
