@@ -82,6 +82,12 @@ export default {
     },
     *addUsers({ payload }, { call, put }) {
       yield call(addUsers, payload);
+      yield put({
+        type: 'set',
+        payload: {
+          userModalVisible: false
+        }
+      });
       message.success('添加用户成功', 2);
     },
     *auditOrganization({ payload }, { call, select }) {

@@ -69,7 +69,9 @@ const UserModal = ({}) => {
           type: 'organization/addUsers',
           payload: {
             orgId: current.id,
-            userIds: dataSource.filter(item => targetKeys.includes(item.key)).map(item => item.key),
+            userIds: dataSource
+              .filter(item => !targetKeys.includes(item.key))
+              .map(item => item.key),
           },
         });
       }}
