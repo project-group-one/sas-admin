@@ -1,7 +1,7 @@
+import { message } from 'antd';
 import { query, find, add, update, freezeUser, thawUser } from '@/services/users';
 import { userAudit, getUserAuditDetail } from '@/services/admin';
 
-import { message } from 'antd';
 
 export default {
   namespace: 'users',
@@ -79,13 +79,11 @@ export default {
     *userAudit({ payload }, { call, put }) {
       yield call(userAudit, payload);
       yield put({
-        type: 'getUserList',
+        type: 'setEditModalVisible',
+        payload: false,
       });
       yield put({
-        type: 'set',
-        payload: {
-          editModalVisible: false,
-        },
+        type: 'getUserList',
       });
     },
     *getUserAuditDetail({ payload }, { call, put }) {

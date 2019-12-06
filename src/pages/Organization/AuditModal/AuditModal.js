@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Input, Form, Button } from 'antd';
 import { useDispatch, useSelector } from 'dva';
+import { filePath } from '@/constants';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -57,7 +58,11 @@ const AuditModal = ({ form }) => {
       }
     >
       <FormItem label="材料" colon={false}>
-        <img src={current.credential} alt="" />
+        <img
+          style={{ maxHeight: 400, maxWidth: 500 }}
+          src={`${filePath}${current.credential}`}
+          alt=""
+        />
       </FormItem>
 
       <FormItem label="驳回原因" colon={false}>

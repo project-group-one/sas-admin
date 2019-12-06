@@ -9,6 +9,14 @@ import UserEdit from './Edit';
 
 import styles from './index.less';
 
+const getText = verifyStatus => {
+  return verifyStatus === 0 ? (
+    <span style={{ color: 'red' }}>未审核</span>
+  ) : (
+    <span style={{ color: 'green' }}>已审核</span>
+  );
+};
+
 @connect(({ loading, users, global }) => ({
   data: users.list,
   queryParams: users.queryParams,
@@ -48,7 +56,7 @@ class Users extends Component {
         <React.Fragment>
           <a onClick={() => this.handleEdit(record.id)}>编辑</a>
           <Divider type="vertical" />
-          {record.verified === false && (
+          {record.verifyStatus === 1 ? (
             <>
               <a
                 onClick={() => {
@@ -57,9 +65,11 @@ class Users extends Component {
               >
                 审核
               </a>
-              <Divider type="vertical" />
             </>
+          ) : (
+            getText(record.verifyStatus)
           )}
+          <Divider type="vertical" />
           {this.props.currentUser.id !== record.id && (
             <Switch
               checked={record.status === 0}
