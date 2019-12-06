@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Transfer } from 'antd';
 import { useSelector, useDispatch } from 'dva';
+import styles from './index.less'
 
 const UserModal = ({}) => {
   const dispatch = useDispatch();
@@ -78,6 +79,7 @@ const UserModal = ({}) => {
       onCancel={handleCancel}
     >
       <Transfer
+        className={styles.box}
         style={{ marginLeft: 34 }}
         dataSource={dataSource}
         titles={['组织', '用户']}

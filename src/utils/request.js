@@ -159,15 +159,15 @@ export default function request(url, option) {
       }
       // environment should not be used
       if (status === 403) {
-        router.push('/exception/403');
+        // router.push('/exception/403');
         return response.json();
       }
       if (status <= 504 && status >= 500) {
-        router.push('/exception/500');
+        // router.push('/exception/500');
         return response.json();
       }
       if (status >= 404 && status < 422) {
-        router.push('/exception/404');
+        // router.push('/exception/404');
         return response.json();
       }
       console.log(response, 123123123);
