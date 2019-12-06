@@ -55,7 +55,6 @@ if (process.env.APP_TYPE === 'site') {
 }
 
 export default {
-  publicPath: "/admin/",
   // add for transfer to umi
   plugins,
   // history: 'hash',
