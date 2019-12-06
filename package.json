@@ -9,6 +9,7 @@
     "start:no-mock": "cross-env MOCK=none umi dev",
     "build": "umi build",
     "server": "node ./server.js",
+    "pm2": "pm2 start ./server.js",
     "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
     "analyze": "cross-env ANALYZE=1 umi build",
     "lint:style": "stylelint \"src/**/*.less\" --syntax less",
