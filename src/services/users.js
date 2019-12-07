@@ -9,9 +9,10 @@ export function find(id) {
   return request(`/api/user/${id}`);
 }
 
-export function remove(id) {
-  return request(`/api/user/${id}`, {
+export function remove(params) {
+  return request(`/api/user?${stringify(params)}`, {
     method: 'DELETE',
+
   });
 }
 

@@ -94,7 +94,21 @@ class Users extends Component {
           {this.props.currentUser.id !== record.id && (
             <>
               <Divider type="vertical" />
-              <a onClick={() => {}}>删除</a>
+              <a
+                onClick={() => {
+                  Modal.confirm({
+                    title: '是否确认删除?',
+                    onOk: async () => {
+                      await this.props.dispatch({
+                        type: 'users/remove',
+                        payload: record.id,
+                      });
+                    },
+                  });
+                }}
+              >
+                删除
+              </a>
             </>
           )}
         </React.Fragment>

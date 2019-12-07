@@ -21,6 +21,7 @@ import DetailModal from './DetailModal';
 
 import styles from './List.less';
 import { ROOT_PATH } from '@/utils/request';
+import getDate from '@/utils/getDate';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -54,7 +55,7 @@ class TableList extends PureComponent {
       title: '创建时间',
       dataIndex: 'releaseTime',
       sorter: true,
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+      render: val => <span>{moment(getDate(val)).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作',

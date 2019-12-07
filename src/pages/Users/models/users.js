@@ -1,7 +1,6 @@
 import { message } from 'antd';
-import { query, find, add, update, freezeUser, thawUser } from '@/services/users';
+import { query, find, add, update, freezeUser, thawUser, remove } from '@/services/users';
 import { userAudit, getUserAuditDetail } from '@/services/admin';
-
 
 export default {
   namespace: 'users',
@@ -40,6 +39,17 @@ export default {
           payload: result.data || [],
         });
       }
+    },
+    *remove({ payload }, { call, put, select }) {
+      const currentUserId = yield select(state => state.global.currentUser.id);
+      const result = yield call(remove, {
+        id: currentUserId,
+        ids: [payload].toString(),
+      });
+      yield put({
+        type: 'getUserList',
+      });
+      message.success('删除成功');
     },
     *updateUser({ payload }, { call, select, put }) {
       const currentUserId = yield select(state => state.global.currentUser.id);
