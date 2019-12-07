@@ -146,6 +146,12 @@ class ModalContent extends React.PureComponent {
             </RadioGroup>
           )}
         </FormItem>
+        <FormItem {...formItemLayout} label="跳转链接">
+          {getFieldDecorator('url', {
+            rules: [{ required: false, message: '请填写跳转链接' }],
+            initialValue: current.url,
+          })(<Input placeholder={'请填写跳转链接'} />)}
+        </FormItem>
       </div>
     );
   }
