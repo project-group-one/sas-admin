@@ -58,22 +58,7 @@ class TableList extends PureComponent {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          <a
-            onClick={() => {
-              this.props.dispatch({
-                type: 'organization/set',
-                payload: {
-                  auditModalVisible: true,
-                  id: record.id,
-                },
-              });
-              this.props.dispatch({
-                type: 'organization/fetchItem',
-              });
-            }}
-          >
-            审核
-          </a>
+          {this.getAuditText(record.status, record.id)}
           <Divider type="vertical" />
           <a
             onClick={() =>
@@ -103,6 +88,37 @@ class TableList extends PureComponent {
       type: 'organization/fetch',
     });
   }
+
+  // WAIT_AUDIT, AUDITING, FAIL, SUCCESS
+  getAuditText = (status, id) => {
+    switch (status) {
+      case 'WAIT_AUDIT':
+      case 'AUDITING':
+        return (
+          <a
+            onClick={() => {
+              this.props.dispatch({
+                type: 'organization/set',
+                payload: {
+                  auditModalVisible: true,
+                  id,
+                },
+              });
+              this.props.dispatch({
+                type: 'organization/fetchItem',
+              });
+            }}
+          >
+            审核
+          </a>
+        );
+      case 'FAIL':
+        return <span style={{ color: 'red' }}>审核失败</span>;
+      case 'SUCCESS':
+      default:
+        return <span style={{ color: 'green' }}>审核成功</span>;
+    }
+  };
 
   handleRemove = id => () => {
     Modal.confirm({
